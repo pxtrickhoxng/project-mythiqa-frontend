@@ -22,7 +22,7 @@ export default function UserDropdown({ firstName, imageUrl }: { firstName: strin
         onClick={() => setOpen(!open)}
       />
       {open && (
-        <div className='absolute top-12 right-0 bg-white/70 shadow-lg rounded-lg px-6 py-3 z-50 min-w-[220px] w-64 flex flex-col items-start gap-2'>
+        <div className='absolute top-12 right-0 bg-white shadow-lg rounded-lg px-6 py-3 z-50 min-w-[220px] w-64 flex flex-col items-start gap-2'>
           <Link
             className='flex items-center gap-2 w-full px-3 py-2 rounded-md hover:bg-gray-100 transition font-medium text-black'
             href='/profile'
