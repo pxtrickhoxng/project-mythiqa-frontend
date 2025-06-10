@@ -14,7 +14,6 @@ const page = async () => {
   }
 
   const userData = await fetchUserData(user?.id);
-
   const joinDate = userData?.created_at
     ? new Date(userData.created_at).toLocaleDateString(undefined, {
         year: 'numeric',
