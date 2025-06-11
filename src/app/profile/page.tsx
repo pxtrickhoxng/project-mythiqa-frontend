@@ -1,4 +1,4 @@
-import { currentUser } from '@clerk/nextjs/server';
+import { currentUser, auth } from '@clerk/nextjs/server';
 import Image from 'next/image';
 import { fetchUserData } from '@/lib/api';
 
@@ -13,7 +13,23 @@ const page = async () => {
     );
   }
 
-  const userData = await fetchUserData(user?.id);
+  const { getToken } = await auth();
+  const token = await getToken?.();
+
+  const userData = await fetchUserData(user?.id, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!userData) {
+    return (
+      <div className='w-full min-h-screen flex items-center justify-center bg-[#f7f4ed]'>
+        <h1 className='text-2xl font-bold text-gray-700'>User data not found</h1>
+      </div>
+    );
+  }
+
   const joinDate = userData?.created_at
     ? new Date(userData.created_at).toLocaleDateString(undefined, {
         year: 'numeric',
