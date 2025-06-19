@@ -1,10 +1,26 @@
 import { RequestInit } from 'next/dist/server/web/spec-extension/request';
-
 const baseUrl = 'http://localhost:8000';
 
-export const fetchUserData = async (userId: string, init?: RequestInit) => {
+type userType = {
+  user_id: string;
+  username: string | null;
+  email: string;
+  description: string | null;
+  profile_background_img_url: string | null;
+  user_profile_url: string | null;
+  role: 'user' | 'admin';
+};
+
+type updateUserType = {
+  username: string;
+  profile_background_img_url: string | null;
+  user_profile_url: string | null;
+  description: string | null;
+};
+
+export const fetchUserData = async (username: string, init?: RequestInit) => {
   try {
-    const res = await fetch(`${baseUrl}/api/users/${userId}`, init);
+    const res = await fetch(`${baseUrl}/api/users/${username}`, init);
     if (!res.ok) {
       return null;
     }
@@ -14,4 +30,57 @@ export const fetchUserData = async (userId: string, init?: RequestInit) => {
     console.error('Fetch failed:', error);
     return null;
   }
+};
+
+const token = process.env.CLERK_SECRET_KEY;
+
+export const createUser = async (user: userType) => {
+  const res = await fetch(`${baseUrl}/api/users/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(user),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to create user');
+  }
+
+  return res.status;
+};
+
+export const updateUser = async (user: updateUserType, token: string) => {
+  const res = await fetch(`${baseUrl}/api/users/update`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(user),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update user');
+  }
+
+  return res;
+};
+
+export const deleteUser = async (userId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/users/delete`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ user_id: userId }),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to delete user');
+  }
+
+  return res.status;
 };

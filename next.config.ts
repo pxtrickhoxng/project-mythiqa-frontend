@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  allowedDevOrigins: ['tidy-drake-harmless.ngrok-free.app'],
+  reactStrictMode: false,
 };
 
 export default nextConfig;

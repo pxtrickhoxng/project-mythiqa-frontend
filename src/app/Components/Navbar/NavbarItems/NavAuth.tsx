@@ -6,10 +6,10 @@ const NavAuth = async () => {
   const { userId } = await auth();
   const user = await currentUser();
 
-  if (userId && user?.imageUrl) {
+  if (userId && user?.imageUrl && user.username) {
     return (
       <div className='flex justify-end items-center flex-1 gap-6'>
-        <UserDropdown firstName={user.firstName || ''} imageUrl={user.imageUrl} />
+        <UserDropdown imageUrl={user.imageUrl} username={user.username} />
       </div>
     );
   }
