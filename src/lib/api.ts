@@ -84,3 +84,22 @@ export const deleteUser = async (userId: string, token: string) => {
 
   return res.status;
 };
+
+export const uploadUserBgImg = async (bgImgFile: File) => {
+  const formData = new FormData();
+  formData.append('bgImgFile', bgImgFile);
+  const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
+  if (bucket) {
+    formData.append('bucket', bucket);
+  }
+
+  const res = await fetch(`${baseUrl}/api/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to upload file');
+  }
+  return res;
+};

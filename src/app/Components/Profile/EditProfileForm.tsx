@@ -2,15 +2,15 @@
 import { updateUser } from '../../../lib/api';
 import { useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
+import { uploadUserBgImg } from '../../../lib/api';
 
 type EditProfileFormTypes = {
   username: string;
   userProfileImgUrl: string;
-  userBgImgUrl: string;
   userDescription: string;
 };
 
-const EditProfileForm = ({ username, userProfileImgUrl, userBgImgUrl, userDescription }: EditProfileFormTypes) => {
+const EditProfileForm = ({ username, userProfileImgUrl, userDescription }: EditProfileFormTypes) => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -21,10 +21,18 @@ const EditProfileForm = ({ username, userProfileImgUrl, userBgImgUrl, userDescri
     e.preventDefault();
     setLoading(true);
     setMessage('');
+
     const formData = new FormData(e.currentTarget);
+
+    const userBgImgFile = formData.get('bgImgFile') as File;
+
+    const res = await uploadUserBgImg(userBgImgFile);
+    const data = await res.json();
+    const userBgProfileUrl = data.url;
+
     const updatedUser = {
       username: formData.get('username') as string,
-      profile_background_img_url: formData.get('backgroundImage') as string,
+      profile_background_img_url: userBgProfileUrl as string,
       user_profile_url: formData.get('profilePicture') as string,
       description: formData.get('description') as string,
     };
@@ -89,16 +97,17 @@ const EditProfileForm = ({ username, userProfileImgUrl, userBgImgUrl, userDescri
 
       <div className='mb-5'>
         <label htmlFor='backgroundImage' className='block mb-1 font-semibold text-gray-700'>
-          Background Image URL
+          Background Image
         </label>
-        <input
-          id='backgroundImage'
-          name='backgroundImage'
-          type='url'
-          defaultValue={userBgImgUrl}
-          placeholder='https://example.com/background.jpg'
-          className='w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 text-black'
-        />
+        <div className='flex flex-col items-center justify-center'>
+          <input
+            id='bgImgFile'
+            type='file'
+            name='bgImgFile'
+            accept='image/*'
+            className='block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100'
+          />
+        </div>
       </div>
 
       <div className='mb-6'>
