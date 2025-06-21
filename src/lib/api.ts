@@ -85,9 +85,12 @@ export const deleteUser = async (userId: string, token: string) => {
   return res.status;
 };
 
-export const uploadUserBgImg = async (bgImgFile: File) => {
+export const uploadUserBgImg = async (bgImgFile: File, userProfileImgFile: File, token: string) => {
   const formData = new FormData();
-  formData.append('bgImgFile', bgImgFile);
+
+  formData.append('bg_img_file', bgImgFile);
+  formData.append('user_profile_img_file', userProfileImgFile);
+
   const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
   if (bucket) {
     formData.append('bucket', bucket);
@@ -95,11 +98,28 @@ export const uploadUserBgImg = async (bgImgFile: File) => {
 
   const res = await fetch(`${baseUrl}/api/upload`, {
     method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     body: formData,
   });
 
   if (!res.ok) {
     throw new Error('Failed to upload file');
   }
+  return res;
+};
+
+export const fetchUserProfileImg = async (username: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/users/${username}/profile-img`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to retrieve user profile img');
+  }
+
   return res;
 };

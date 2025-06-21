@@ -26,8 +26,9 @@ const page = async () => {
     return (
       <EditProfileForm
         username={username}
-        userProfileImgUrl={userData.user_profile_url}
         userDescription={userData.description}
+        currentBgImg={userData.profile_background_img_url}
+        currentProfileImg={userData.user_profile_url}
       />
     );
   } else {

@@ -3,20 +3,23 @@ import { updateUser } from '../../../lib/api';
 import { useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import { uploadUserBgImg } from '../../../lib/api';
+import Image from 'next/image';
 
 type EditProfileFormTypes = {
   username: string;
-  userProfileImgUrl: string;
   userDescription: string;
+  currentBgImg: string;
+  currentProfileImg: string;
 };
 
-const EditProfileForm = ({ username, userProfileImgUrl, userDescription }: EditProfileFormTypes) => {
+const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfileImg }: EditProfileFormTypes) => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const successMessage = 'Profile updated successfully!';
 
   const { getToken } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -25,25 +28,26 @@ const EditProfileForm = ({ username, userProfileImgUrl, userDescription }: EditP
     const formData = new FormData(e.currentTarget);
 
     const userBgImgFile = formData.get('bgImgFile') as File;
+    const userProfileImgFile = formData.get('profileImg') as File;
 
-    const res = await uploadUserBgImg(userBgImgFile);
-    const data = await res.json();
-    const userBgProfileUrl = data.url;
+    const tokenForUpdate = await getToken();
 
-    const updatedUser = {
-      username: formData.get('username') as string,
-      profile_background_img_url: userBgProfileUrl as string,
-      user_profile_url: formData.get('profilePicture') as string,
-      description: formData.get('description') as string,
-    };
-
-    const token = await getToken();
-
-    if (!token) {
+    if (!tokenForUpdate) {
       setMessage('Authentication error. Please log in again.');
       setLoading(false);
       return;
     }
+
+    const res = await uploadUserBgImg(userBgImgFile, userProfileImgFile, tokenForUpdate);
+    const data = await res.json();
+
+    const updatedUser = {
+      username: formData.get('username') as string,
+      profile_background_img_url: data.bg_img_url as string,
+      user_profile_url: data.profile_img_url as string,
+      description: formData.get('description') as string,
+    };
+
     try {
       const res = await updateUser(updatedUser, token);
       if (res.ok) {
@@ -83,16 +87,26 @@ const EditProfileForm = ({ username, userProfileImgUrl, userDescription }: EditP
 
       <div className='mb-5'>
         <label htmlFor='profilePicture' className='block mb-1 font-semibold text-gray-700'>
-          Profile Picture URL
+          Profile Picture
         </label>
-        <input
-          id='profilePicture'
-          name='profilePicture'
-          type='url'
-          defaultValue={userProfileImgUrl}
-          placeholder='https://example.com/profile.jpg'
-          className='w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 text-black'
-        />
+        <div className='flex flex-col items-center justify-center'>
+          <input
+            id='profileImg'
+            type='file'
+            name='profileImg'
+            accept='image/*'
+            className='block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100'
+          />
+        </div>
+        <div className='w-[160px] h-[160px] mx-auto mt-4 rounded-full overflow-hidden border border-gray-300 flex items-center justify-center'>
+          <Image
+            src={currentProfileImg}
+            width={160}
+            height={160}
+            alt="user's current profile picture"
+            className='object-cover w-full h-full'
+          />
+        </div>
       </div>
 
       <div className='mb-5'>
@@ -108,9 +122,18 @@ const EditProfileForm = ({ username, userProfileImgUrl, userDescription }: EditP
             className='block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100'
           />
         </div>
+        <div>
+          <Image
+            src={currentBgImg}
+            width={1200}
+            height={192}
+            alt="user's current profile picture"
+            className='h-90 object-cover object-center mt-4'
+          />
+        </div>
       </div>
 
-      <div className='mb-6'>
+      <div className='mb-4'>
         <label htmlFor='description' className='block mb-1 font-semibold text-gray-700'>
           Description
         </label>

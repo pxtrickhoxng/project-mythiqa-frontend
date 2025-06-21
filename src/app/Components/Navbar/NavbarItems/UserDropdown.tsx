@@ -13,14 +13,16 @@ export default function UserDropdown({ imageUrl, username }: { imageUrl: string;
   return (
     <div className='relative flex items-center gap-3'>
       <p>{username}</p>
-      <Image
-        src={imageUrl}
-        alt='user profile image'
-        width={35}
-        height={35}
-        className='rounded-full object-cover border border-gray-300  hover:brightness-85'
-        onClick={() => setOpen(!open)}
-      />
+      <div className='w-[35px] h-[35px] rounded-full overflow-hidden border border-gray-300 cursor-pointer bg-white'>
+        <Image
+          src={imageUrl}
+          alt='user profile image'
+          width={35}
+          height={35}
+          className='object-cover w-full h-full hover:opacity-80 transition ease-in-out'
+          onClick={() => setOpen(!open)}
+        />
+      </div>
       {open && (
         <div className='absolute top-12 right-0 bg-white shadow-lg rounded-lg px-6 py-3 z-50 min-w-[220px] w-64 flex flex-col items-start gap-2'>
           <Link

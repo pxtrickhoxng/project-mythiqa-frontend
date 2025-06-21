@@ -76,8 +76,9 @@ const page = async ({ params }: PageProps) => {
         <div className='px-8 pb-8 w-full flex flex-col items-center'>
           <h2 className='text-2xl font-bold text-black mb-2'>{username}</h2>
           {joinDate && <p className='text-gray-500 text-sm mb-4'>Joined {joinDate}</p>}
-          <EditReportButton urlUsername={username} currentUser={user?.username} />
+
           <p className='text-gray-600 text-center'>{userData?.description || ''}</p>
+          <EditReportButton urlUsername={username} currentUser={user?.username} />
         </div>
       </div>
     </div>
