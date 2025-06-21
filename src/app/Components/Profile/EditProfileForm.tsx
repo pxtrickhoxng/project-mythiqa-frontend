@@ -49,7 +49,7 @@ const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfi
     };
 
     try {
-      const res = await updateUser(updatedUser, token);
+      const res = await updateUser(updatedUser, tokenForUpdate);
       if (res.ok) {
         setMessage(successMessage);
         setTimeout(() => setMessage(''), 3000);
