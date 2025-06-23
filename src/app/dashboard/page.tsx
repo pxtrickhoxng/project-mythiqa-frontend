@@ -1,11 +1,12 @@
-import { currentUser } from '@clerk/nextjs/server';
-
+import OverviewHeader from '../Components/Dashboard/OverviewHeader';
+import QuickActions from '../Components/Dashboard/QuickActions';
+import Stories from '../Components/Dashboard/Stories';
 const page = async () => {
-  const user = await currentUser();
-
   return (
-    <div className='flex items-center justify-center w-screen h-screen'>
-      <div className='text-black'>Welcome to the dashboard, {user?.firstName}!</div>
+    <div className='p-6 space-y-6'>
+      <OverviewHeader />
+      <QuickActions />
+      <Stories />
     </div>
   );
 };
