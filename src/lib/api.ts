@@ -85,7 +85,7 @@ export const deleteUser = async (userId: string, token: string) => {
   return res.status;
 };
 
-export const uploadUserBgImg = async (bgImgFile: File, userProfileImgFile: File, token: string) => {
+export const uploadUserImages = async (bgImgFile: File, userProfileImgFile: File, token: string) => {
   const formData = new FormData();
 
   formData.append('bg_img_file', bgImgFile);
@@ -119,6 +119,29 @@ export const fetchUserProfileImg = async (username: string, token: string) => {
 
   if (!res.ok) {
     throw new Error('Failed to retrieve user profile img');
+  }
+
+  return res;
+};
+
+export const createStory = async (formData: FormData, userId: string, token: string) => {
+  const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
+  if (!bucket) {
+    throw new Error('AWS S3 bucket name is not configured');
+  }
+  formData.append('bucket', bucket);
+
+  const res = await fetch(`${baseUrl}/api/${userId}/create-story`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  // Don't throw error for 409 (Conflict) - let the component handle it
+  if (!res.ok && res.status !== 409) {
+    throw new Error('Failed to create a new story');
   }
 
   return res;

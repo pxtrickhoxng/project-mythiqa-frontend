@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const QuickActions = () => {
   return (
     <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6'>
@@ -5,7 +7,7 @@ const QuickActions = () => {
         <h2 className='text-xl font-semibold text-gray-800'>Quick Actions</h2>
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-        <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors group'>
+        <Link className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors group' href="/dashboard/create">
           <div className='w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors'>
             <svg className='w-4 h-4 text-blue-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 4v16m8-8H4' />
@@ -15,7 +17,7 @@ const QuickActions = () => {
             <p className='font-medium text-gray-700 group-hover:text-blue-700'>Add New Story</p>
             <p className='text-sm text-gray-500'>Create a new story project</p>
           </div>
-        </button>
+        </Link>
         <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-red-400 hover:bg-red-50 transition-colors group'>
           <div className='w-8 h-8 bg-red-100 rounded-full flex items-center justify-center group-hover:bg-red-200 transition-colors'>
             <svg className='w-4 h-4 text-red-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

@@ -2,7 +2,7 @@
 import { updateUser } from '../../../lib/api';
 import { useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import { uploadUserBgImg } from '../../../lib/api';
+import { uploadUserImages } from '../../../lib/api';
 import Image from 'next/image';
 
 type EditProfileFormTypes = {
@@ -38,7 +38,7 @@ const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfi
       return;
     }
 
-    const res = await uploadUserBgImg(userBgImgFile, userProfileImgFile, tokenForUpdate);
+    const res = await uploadUserImages(userBgImgFile, userProfileImgFile, tokenForUpdate);
     const data = await res.json();
 
     const updatedUser = {
