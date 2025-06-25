@@ -1,7 +1,7 @@
 export default async function Home() {
   return (
     <div>
-      <div className='flex flex-col min-h-screen justify-center items-center text-black'>
+      <div className='flex flex-col min-h-screen justify-center items-center text-black bg-gray-100'>
         <h1 className='text-6xl font-bold'>Welcome to Mythiqa</h1>
         <h2 className='text-2xl mt-4 max-w-xl mx-auto text-center'>Unite your stories, worlds, and voices.</h2>
         <div className='flex gap-6 mt-8'>

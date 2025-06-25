@@ -146,3 +146,19 @@ export const createStory = async (formData: FormData, userId: string, token: str
 
   return res;
 };
+
+export const fetchStories = async (userId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/${userId}/stories`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: userId,
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch user stories');
+  }
+
+  return res;
+};
