@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body {
+  --tt-toolbar-height: 44px;
+  --tt-theme-text: var(--tt-gray-light-900);
+
+  .dark & {
+    --tt-theme-text: var(--tt-gray-dark-900);
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--tt-theme-text);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  padding: 0;
+}
+
+html,
+body,
+#root,
+#app {
+  height: 100%;
+  background-color: var(--tt-bg-color);
+}
+
+body {
+  overflow: hidden;
+}
+
+.tiptap.ProseMirror {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.content-wrapper {
+  height: calc(100% - var(--tt-toolbar-height));
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: block;
+    width: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--tt-scrollbar-color);
+    border-radius: 4px;
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--tt-scrollbar-color) transparent;
+}
+
+.simple-editor-content {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Original ProseMirror styling */
+.simple-editor-content .tiptap.ProseMirror {
+  padding: 3rem;
+  width: 100%;
+  max-width: 1080px;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  cursor: text;
+  caret-color: #000000;
+}
+
+/* Make sure all text elements are selectable */
+.simple-editor-content .tiptap.ProseMirror * {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Override any conflicting styles */
+.simple-editor-content .tiptap.ProseMirror p,
+.simple-editor-content .tiptap.ProseMirror h1,
+.simple-editor-content .tiptap.ProseMirror h2,
+.simple-editor-content .tiptap.ProseMirror h3,
+.simple-editor-content .tiptap.ProseMirror h4,
+.simple-editor-content .tiptap.ProseMirror li,
+.simple-editor-content .tiptap.ProseMirror span {
+  user-select: text;
+  -webkit-user-select: text;
+  pointer-events: auto;
+}
+
+/* Responsive Styles */
+
+/* Mobile-first - for smaller devices */
+@media screen and (max-width: 480px) {
+  .simple-editor-content .tiptap.ProseMirror {
+    padding: 1rem; /* Reduce padding significantly */
+    width: 100%; /* Full width on mobile */
+  }
+}
+
+/* Tablet screens and up to 768px */
+@media screen and (max-width: 768px) {
+  .simple-editor-content .tiptap.ProseMirror {
+    padding: 1.5rem; /* Slightly increase padding for larger small screens */
+    width: 100%; /* Full width on tablet */
+  }
+}
+
+/* Screens up to 1080px */
+@media screen and (max-width: 1080px) {
+  .simple-editor-content .tiptap.ProseMirror {
+    padding: 2rem; /* Slightly reduce padding */
+    width: 100%; /* Full width until max-width kicks in */
+  }
+}

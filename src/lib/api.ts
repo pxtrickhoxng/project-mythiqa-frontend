@@ -162,3 +162,20 @@ export const fetchStories = async (userId: string, token: string) => {
 
   return res;
 };
+
+export const createChapter = async (chapterContent: object, bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/${bookId}/create-chapter`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(chapterContent),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to create chapter');
+  }
+
+  return res;
+};
