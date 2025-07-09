@@ -139,7 +139,6 @@ export const createStory = async (formData: FormData, userId: string, token: str
     body: formData,
   });
 
-  // Don't throw error for 409 (Conflict) - let the component handle it
   if (!res.ok && res.status !== 409) {
     throw new Error('Failed to create a new story');
   }
@@ -163,18 +162,50 @@ export const fetchStories = async (userId: string, token: string) => {
   return res;
 };
 
-export const createChapter = async (chapterContent: object, bookId: string, token: string) => {
+export const fetchBookData = async (bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/${bookId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch book data');
+  }
+
+  return res;
+};
+
+export const createChapter = async (chapterContent: object, chapterName: string, bookId: string, token: string) => {
+  const formData = new FormData();
+  formData.append('chapter_name', chapterName);
+  formData.append('chapter_content', JSON.stringify(chapterContent));
+
   const res = await fetch(`${baseUrl}/api/${bookId}/create-chapter`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(chapterContent),
+    body: formData,
   });
 
   if (!res.ok) {
     throw new Error('Failed to create chapter');
+  }
+
+  return res;
+};
+
+export const fetchBookChapters = async (bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/get-chapters/${bookId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch book');
   }
 
   return res;

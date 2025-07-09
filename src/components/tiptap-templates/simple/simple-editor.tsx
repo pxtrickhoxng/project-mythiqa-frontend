@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { EditorContent, EditorContext, useEditor } from '@tiptap/react';
+import { EditorContent, EditorContext, JSONContent, useEditor } from '@tiptap/react';
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from '@tiptap/starter-kit';
@@ -66,9 +66,6 @@ import { handleImageUpload, MAX_FILE_SIZE } from '@/lib/tiptap-utils';
 
 // --- Styles ---
 import '@/components/tiptap-templates/simple/simple-editor.scss';
-import { createChapter } from '@/lib/api';
-
-import { useAuth } from '@clerk/nextjs';
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -161,7 +158,11 @@ const MobileToolbarContent = ({ type, onBack }: { type: 'highlighter' | 'link'; 
   </>
 );
 
-export const SimpleEditor = ({ bookId }: { bookId: string }) => {
+type EditorTypes = {
+  onTextChange: (content: JSONContent) => void;
+};
+
+export const SimpleEditor = ({ onTextChange }: EditorTypes) => {
   const isMobile = useMobile();
   const windowSize = useWindowSize();
   const [mobileView, setMobileView] = React.useState<'main' | 'highlighter' | 'link'>('main');
@@ -207,7 +208,7 @@ export const SimpleEditor = ({ bookId }: { bookId: string }) => {
       TrailingNode,
       Link.configure({ openOnClick: false }),
     ],
-    content: '<p>Start writing your chapter here...</p>',
+    content: null,
   });
 
   const bodyRect = useCursorVisibility({
@@ -221,29 +222,14 @@ export const SimpleEditor = ({ bookId }: { bookId: string }) => {
     }
   }, [isMobile, mobileView]);
 
-  const { getToken } = useAuth();
-
-  const handleClick = async () => {
-    if (!editor) {
-      console.error('Editor not initialized');
-      return;
+  React.useEffect(() => {
+    if (editor) {
+      editor.on('update', () => {
+        // Whenever the editor content updates, pass the updated content to the parent via onTextChange
+        onTextChange(editor.getJSON());
+      });
     }
-
-    const token = await getToken();
-    if (!token) {
-      console.error('No token available');
-      return;
-    }
-
-    try {
-      const editorContent = editor.getJSON();
-
-      const res = await createChapter(editorContent, bookId, token);
-      console.log(await res.json());
-    } catch (error) {
-      console.error('Failed to create chapter:', error);
-    }
-  };
+  }, [editor, onTextChange]);
 
   return (
     <EditorContext.Provider value={{ editor }}>
@@ -274,9 +260,6 @@ export const SimpleEditor = ({ bookId }: { bookId: string }) => {
       <div className='content-wrapper'>
         <EditorContent editor={editor} role='presentation' className='simple-editor-content' />
       </div>
-      <button className='hover:bg-gray-200' onClick={handleClick}>
-        PRESS ME
-      </button>
     </EditorContext.Provider>
   );
 };
