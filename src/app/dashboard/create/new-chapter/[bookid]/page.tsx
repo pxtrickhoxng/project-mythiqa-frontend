@@ -3,23 +3,45 @@
 import ReturnToDashboard from '@/app/Components/Dashboard/ReturnToDashboard';
 import SaveChapter from '@/app/Components/Dashboard/SaveChapter';
 import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor';
-import { createChapter } from '@/lib/api';
+import { createChapter, getNewChapterNum } from '@/lib/api';
 import { useAuth } from '@clerk/nextjs';
 import { JSONContent } from '@tiptap/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 
-type PageProps = {
-  params: {
-    bookid: string;
-  };
+type Params = {
+  bookid: string;
 };
 
-const Page = ({ params }: PageProps) => {
+const Page = () => {
   const [editorContent, setEditorContent] = useState<JSONContent | null>(null);
   const [chapterName, setChapterName] = useState<string>('');
+  const [chapterNumber, setChapterNumber] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const { getToken } = useAuth();
+  const router = useRouter();
+
+  const frontendToken = process.env.NEXT_PUBLIC_FRONTEND_API_KEY || '';
+  const params = useParams() as Params;
+  const bookid = params.bookid;
+
+  useEffect(() => {
+    if (!bookid) return;
+
+    async function fetchNewChapterNum() {
+      try {
+        const numRes = await getNewChapterNum(bookid, frontendToken);
+        if (!numRes.ok) throw new Error('Failed to fetch new chapter number');
+        const data = await numRes.json();
+        setChapterNumber(data.chapter_number);
+      } catch (error) {
+        console.error('Error fetching chapter number:', error);
+      }
+    }
+
+    fetchNewChapterNum();
+  }, [bookid, frontendToken]);
 
   const handleEditorChange = (content: JSONContent) => {
     setEditorContent(content);
@@ -43,17 +65,22 @@ const Page = ({ params }: PageProps) => {
     setIsSaving(true);
     setSaveStatus('idle');
 
-    const token = await getToken();
-    if (!token) {
+    const userToken = await getToken();
+    if (!userToken) {
       setSaveStatus('error');
       setIsSaving(false);
       return;
     }
 
     try {
-      const res = await createChapter(editorContent, chapterName, params.bookid, token);
+      const numRes = await getNewChapterNum(bookid, frontendToken);
+      const data = await numRes.json();
+      const chapterNumber = data.chapter_number;
+
+      const res = await createChapter(editorContent, chapterName, chapterNumber, bookid, userToken);
       if (res.ok) {
         setSaveStatus('success');
+        router.replace('/dashboard?success=true');
       } else {
         setSaveStatus('error');
       }
@@ -78,9 +105,14 @@ const Page = ({ params }: PageProps) => {
       <ReturnToDashboard />
       <div className='flex flex-col justify-center items-center text-black'>
         <div className='w-full max-w-6xl mb-4'>
-          <label htmlFor='chapterName' className='block text-lg font-semibold text-gray-700 mb-2'>
-            Chapter Name
-          </label>
+          <div className='flex items-center justify-between mb-2'>
+            <label htmlFor='chapterName' className='block text-lg font-semibold text-gray-700'>
+              Chapter Name
+            </label>
+            {chapterNumber !== null && (
+              <span className='text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full'>Chapter {chapterNumber}</span>
+            )}
+          </div>
           <input
             id='chapterName'
             type='text'

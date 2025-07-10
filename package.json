@@ -22,6 +22,7 @@
     "@tiptap/extension-text-align": "^2.22.3",
     "@tiptap/extension-typography": "^2.22.3",
     "@tiptap/extension-underline": "^2.22.3",
+    "@tiptap/html": "^2.25.0",
     "@tiptap/pm": "^2.22.3",
     "@tiptap/react": "^2.22.3",
     "@tiptap/starter-kit": "^2.22.3",

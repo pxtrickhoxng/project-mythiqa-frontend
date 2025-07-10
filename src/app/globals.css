@@ -41,3 +41,7 @@ body {
 .animate-fade {
   animation: fade 2s infinite;
 }
+
+.prose p {
+  margin-bottom: 1rem;
+}

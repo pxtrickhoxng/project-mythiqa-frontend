@@ -146,6 +146,46 @@ export const createStory = async (formData: FormData, userId: string, token: str
   return res;
 };
 
+export const getNewChapterNum = async (bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/${bookId}/get-new-chapter-number`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to create chapter');
+  }
+
+  return res;
+};
+
+export const createChapter = async (
+  chapterContent: object,
+  chapterName: string,
+  chapterNumber: string,
+  bookId: string,
+  token: string
+) => {
+  const formData = new FormData();
+  formData.append('chapter_name', chapterName);
+  formData.append('chapter_content', JSON.stringify(chapterContent));
+
+  const res = await fetch(`${baseUrl}/api/${bookId}/create-chapter/${chapterNumber}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to create chapter');
+  }
+
+  return res;
+};
+
 export const fetchStories = async (userId: string, token: string) => {
   const res = await fetch(`${baseUrl}/api/${userId}/stories`, {
     method: 'POST',
@@ -176,28 +216,23 @@ export const fetchBookData = async (bookId: string, token: string) => {
   return res;
 };
 
-export const createChapter = async (chapterContent: object, chapterName: string, bookId: string, token: string) => {
-  const formData = new FormData();
-  formData.append('chapter_name', chapterName);
-  formData.append('chapter_content', JSON.stringify(chapterContent));
-
-  const res = await fetch(`${baseUrl}/api/${bookId}/create-chapter`, {
-    method: 'POST',
+export const fetchBookChapters = async (bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/get-chapters/${bookId}`, {
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: formData,
   });
 
   if (!res.ok) {
-    throw new Error('Failed to create chapter');
+    throw new Error('Failed to fetch book');
   }
 
   return res;
 };
 
-export const fetchBookChapters = async (bookId: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/get-chapters/${bookId}`, {
+export const fetchOneChapter = async (bookId: string, chapterNumber: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/book/${bookId}/chapter/${chapterNumber}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

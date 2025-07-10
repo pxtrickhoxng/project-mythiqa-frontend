@@ -10,3 +10,10 @@ export type Book = {
   book_cover_url?: string;
   created_at: string;
 };
+
+export type Chapter = {
+  chapter_id: string;
+  chapter_name: string;
+  chapter_number: string;
+  creation_date: string;
+};
