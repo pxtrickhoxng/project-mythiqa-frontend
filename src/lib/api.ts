@@ -245,3 +245,18 @@ export const fetchOneChapter = async (bookId: string, chapterNumber: string, tok
 
   return res;
 };
+
+export const fetchNumOfStories = async (userId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/${userId}/num-of-books`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch books');
+  }
+
+  return res;
+};

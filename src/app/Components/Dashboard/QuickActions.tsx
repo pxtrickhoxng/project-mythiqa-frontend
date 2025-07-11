@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 const QuickActions = () => {
   return (
@@ -6,8 +6,11 @@ const QuickActions = () => {
       <div className='flex items-center justify-between mb-6'>
         <h2 className='text-xl font-semibold text-gray-800'>Quick Actions</h2>
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-        <Link className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors group' href="/dashboard/create">
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4'>
+        <Link
+          className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors group'
+          href='/dashboard/create'
+        >
           <div className='w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors'>
             <svg className='w-4 h-4 text-blue-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 4v16m8-8H4' />
@@ -18,22 +21,6 @@ const QuickActions = () => {
             <p className='text-sm text-gray-500'>Create a new story project</p>
           </div>
         </Link>
-        <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-red-400 hover:bg-red-50 transition-colors group'>
-          <div className='w-8 h-8 bg-red-100 rounded-full flex items-center justify-center group-hover:bg-red-200 transition-colors'>
-            <svg className='w-4 h-4 text-red-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-              />
-            </svg>
-          </div>
-          <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-red-700'>Add Chapter</p>
-            <p className='text-sm text-gray-500'>Add a new chapter to an existing story</p>
-          </div>
-        </button>
         <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition-colors group'>
           <div className='w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors'>
             <svg className='w-4 h-4 text-yellow-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

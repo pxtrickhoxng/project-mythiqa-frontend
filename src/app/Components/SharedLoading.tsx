@@ -1,6 +1,6 @@
 const SharedLoading = () => {
   return (
-    <div className='flex justify-center items-center min-h-screen text-black'>
+    <div className='bg-white flex justify-center items-center min-h-screen text-black'>
       <h1 className='text-6xl font-bold animate-fade'>Mythiqa</h1>
     </div>
   );
