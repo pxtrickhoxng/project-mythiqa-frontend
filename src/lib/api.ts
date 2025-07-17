@@ -1,3 +1,4 @@
+import { timelineCardFormType } from '@/utils/types';
 import { RequestInit } from 'next/dist/server/web/spec-extension/request';
 const baseUrl = 'http://localhost:8000';
 
@@ -96,7 +97,7 @@ export const uploadUserImages = async (bgImgFile: File, userProfileImgFile: File
     formData.append('bucket', bucket);
   }
 
-  const res = await fetch(`${baseUrl}/api/upload`, {
+  const res = await fetch(`${baseUrl}/api/users/upload-imgs`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -131,7 +132,7 @@ export const createStory = async (formData: FormData, userId: string, token: str
   }
   formData.append('bucket', bucket);
 
-  const res = await fetch(`${baseUrl}/api/${userId}/create-story`, {
+  const res = await fetch(`${baseUrl}/api/books/${userId}/create-story`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -147,7 +148,7 @@ export const createStory = async (formData: FormData, userId: string, token: str
 };
 
 export const getNewChapterNum = async (bookId: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/${bookId}/get-new-chapter-number`, {
+  const res = await fetch(`${baseUrl}/api/books/${bookId}/get-new-chapter-number`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -171,7 +172,7 @@ export const createChapter = async (
   formData.append('chapter_name', chapterName);
   formData.append('chapter_content', JSON.stringify(chapterContent));
 
-  const res = await fetch(`${baseUrl}/api/${bookId}/create-chapter/${chapterNumber}`, {
+  const res = await fetch(`${baseUrl}/api/books/${bookId}/create-chapter/${chapterNumber}`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -187,12 +188,10 @@ export const createChapter = async (
 };
 
 export const fetchStories = async (userId: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/${userId}/stories`, {
-    method: 'POST',
+  const res = await fetch(`${baseUrl}/api/books/${userId}/stories`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    body: userId,
   });
 
   if (!res.ok) {
@@ -203,7 +202,7 @@ export const fetchStories = async (userId: string, token: string) => {
 };
 
 export const fetchBookData = async (bookId: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/${bookId}`, {
+  const res = await fetch(`${baseUrl}/api/books/${bookId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -217,7 +216,7 @@ export const fetchBookData = async (bookId: string, token: string) => {
 };
 
 export const fetchBookChapters = async (bookId: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/get-chapters/${bookId}`, {
+  const res = await fetch(`${baseUrl}/api/books/get-chapters/${bookId}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -232,7 +231,7 @@ export const fetchBookChapters = async (bookId: string, token: string) => {
 };
 
 export const fetchOneChapter = async (bookId: string, chapterNumber: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/book/${bookId}/chapter/${chapterNumber}`, {
+  const res = await fetch(`${baseUrl}/api/books/${bookId}/chapter/${chapterNumber}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -247,7 +246,7 @@ export const fetchOneChapter = async (bookId: string, chapterNumber: string, tok
 };
 
 export const fetchNumOfStories = async (userId: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/${userId}/num-of-books`, {
+  const res = await fetch(`${baseUrl}/api/users/${userId}/num-of-books`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
@@ -256,6 +255,49 @@ export const fetchNumOfStories = async (userId: string, token: string) => {
 
   if (!res.ok) {
     throw new Error('Failed to fetch books');
+  }
+
+  return res;
+};
+
+export const fetchTimelineCards = async (bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/timeline/${bookId}/get-timeline-cards`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch timeline cards');
+  }
+
+  return res;
+};
+
+export const createTimelineCard = async (formData: timelineCardFormType, token: string) => {
+  const res = await fetch(`${baseUrl}/api/timeline/${formData.bookId}/create-timeline-card`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
+
+  return res;
+};
+
+export const fetchLatestTimelineIndex = async (bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/timeline/${bookId}/latest-timeline-index`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch latest timeline index');
   }
 
   return res;

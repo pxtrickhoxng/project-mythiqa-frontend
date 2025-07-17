@@ -37,7 +37,10 @@ const QuickActions = () => {
             <p className='text-sm text-gray-500'>Keep track of ideas and notes</p>
           </div>
         </button>
-        <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors group'>
+        <Link
+          className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors group'
+          href='/dashboard/manage-plot'
+        >
           <div className='w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors'>
             <svg className='w-4 h-4 text-orange-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path
@@ -52,7 +55,7 @@ const QuickActions = () => {
             <p className='font-medium text-gray-700 group-hover:text-orange-700'>Manage Plot</p>
             <p className='text-sm text-gray-500'>Plan and structure your story plot</p>
           </div>
-        </button>{' '}
+        </Link>{' '}
         <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-colors group'>
           <div className='w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center group-hover:bg-purple-200 transition-colors'>
             <svg className='w-4 h-4 text-purple-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

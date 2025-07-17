@@ -35,7 +35,7 @@ const page = async ({ params }: PageProps) => {
 
   if (!userData) {
     return (
-      <div className='w-full min-h-screen flex flex-col items-center justify-center bg-[#f7f4ed]'>
+      <div className='w-full min-h-screen flex flex-col items-center justify-center bg-[#f3f4f6]'>
         <h1 className='text-2xl font-bold text-gray-700'>User data not found</h1>
         <h2 className='font-bold text-gray-500'>Try reloading the page</h2>
       </div>
@@ -50,7 +50,7 @@ const page = async ({ params }: PageProps) => {
     : null;
 
   return (
-    <div className='w-full min-h-screen bg-[#f7f4ed]'>
+    <div className='w-full min-h-screen bg-[#f3f4f6]'>
       <div className='w-5xl min-w-[320px] mx-auto bg-white rounded-xl shadow-lg flex flex-col items-center overflow-hidden'>
         <div className='w-full h-100 relative'>
           <Image
