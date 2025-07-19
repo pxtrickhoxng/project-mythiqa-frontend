@@ -33,7 +33,6 @@ export default function AddTimelineCard({ bookId, userId, latestIndex }: PropTyp
 
   const emptyDetail = { detailTitle: '', detailContent: '', detailColor: '#6b7280' };
   const [details, setDetails] = useState<detailsType[]>([emptyDetail]);
-  //
 
   useEffect(() => {
     if (showSuccessNotification) {
@@ -92,6 +91,10 @@ export default function AddTimelineCard({ bookId, userId, latestIndex }: PropTyp
 
   const addDetailBlock = () => {
     setDetails(prevDetails => [...prevDetails, emptyDetail]);
+  };
+
+  const removeDetailBlock = (index: number) => {
+    setDetails(prevDetails => prevDetails.filter((_, i) => i !== index));
   };
 
   return (
@@ -232,6 +235,23 @@ export default function AddTimelineCard({ bookId, userId, latestIndex }: PropTyp
                           setDetails(newDetails);
                         }}
                       />
+                      {details.length > 1 && (
+                        <button
+                          type='button'
+                          onClick={() => removeDetailBlock(index)}
+                          className='text-red-500 hover:text-red-700'
+                          title='Remove detail block'
+                        >
+                          <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth={2}
+                              d='M6 18L18 6M6 6l12 12'
+                            />
+                          </svg>
+                        </button>
+                      )}
                     </div>
 
                     <textarea

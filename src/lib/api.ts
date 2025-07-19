@@ -69,6 +69,7 @@ export const updateUser = async (user: updateUserType, token: string) => {
   return res;
 };
 
+// yet to be implemented
 export const deleteUser = async (userId: string, token: string) => {
   const res = await fetch(`${baseUrl}/api/users/delete`, {
     method: 'DELETE',
@@ -111,12 +112,8 @@ export const uploadUserImages = async (bgImgFile: File, userProfileImgFile: File
   return res;
 };
 
-export const fetchUserProfileImg = async (username: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/users/${username}/profile-img`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const fetchUserProfileImg = async (username: string) => {
+  const res = await fetch(`${baseUrl}/api/users/${username}/profile-img`);
 
   if (!res.ok) {
     throw new Error('Failed to retrieve user profile img');
@@ -245,13 +242,23 @@ export const fetchOneChapter = async (bookId: string, chapterNumber: string, tok
   return res;
 };
 
-export const fetchNumOfStories = async (userId: string, token: string) => {
-  const res = await fetch(`${baseUrl}/api/users/${userId}/num-of-books`, {
+export const fetchBookCover = async (bookId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/books/${bookId}/cover`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch book');
+  }
+
+  return res;
+};
+
+export const fetchNumOfStories = async (userId: string) => {
+  const res = await fetch(`${baseUrl}/api/users/${userId}/num-of-books`);
 
   if (!res.ok) {
     throw new Error('Failed to fetch books');
@@ -283,6 +290,31 @@ export const createTimelineCard = async (formData: timelineCardFormType, token: 
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(formData),
+  });
+
+  return res;
+};
+
+export const updateTimelineCard = async (formData: timelineCardFormType, token: string) => {
+  const res = await fetch(`${baseUrl}/api/timeline/${formData.bookId}/update-timeline-card/${formData.index}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(formData),
+  });
+
+  return res;
+};
+
+export const deleteTimelineCard = async (bookId: string, index: number, token: string) => {
+  const res = await fetch(`${baseUrl}/api/timeline/${bookId}/delete-timeline-card/${index}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   return res;

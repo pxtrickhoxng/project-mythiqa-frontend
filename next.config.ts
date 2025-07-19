@@ -9,15 +9,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'user-pic.webnovel.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'project-mythiqa-aws-s3.s3.us-east-2.amazonaws.com',
       },
     ],
   },
-  allowedDevOrigins: ['tidy-drake-harmless.ngrok-free.app'],
+  allowedDevOrigins: process.env.ALLOWED_ORIGINS?.split(',') ?? [],
   reactStrictMode: false,
 };
 

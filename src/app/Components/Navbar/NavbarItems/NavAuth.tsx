@@ -10,7 +10,7 @@ const NavAuth = async () => {
   const user = await currentUser();
 
   if (userId && user?.username && token) {
-    const res = await fetchUserProfileImg(user?.username, token);
+    const res = await fetchUserProfileImg(user?.username);
     const data = await res.json();
     return (
       <div className='flex justify-end items-center flex-1 gap-6'>
