@@ -6,6 +6,8 @@ Mythiqa is a full-stack MVP for a collaborative storytelling platform that empow
 
 ## Screenshots
 
+The following images showcase some of Mythiqa’s key features. More will be added soon!
+
 ### Author Dashboard
 <img width="1914" height="841" alt="image" src="https://github.com/user-attachments/assets/06b304a5-418a-4a48-b24d-1b591b48d601" />
 
