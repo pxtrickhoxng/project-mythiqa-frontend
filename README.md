@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mythiqa
 
-## Getting Started
+Mythiqa is a full-stack MVP for a collaborative storytelling platform that empowers users to co-author, publish, and explore narrative content—primarily those focused on Fantasy and Science Fiction. The platform combines modern frontend technologies, scalable backend infrastructure, and AI-assisted writing tools to deliver an engaging and intuitive experience for writers and readers alike.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Frontend:** Next.js, Tailwind CSS, TypeScript  
+- **Backend:** FastAPI (Python)  
+- **Cloud & Data Storage:** AWS (RDS/PostgreSQL, DynamoDB, S3)  
+- **AI Integration:** Google Gemini API for AI-assisted writing tools
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Key Features
 
-## Learn More
+- **Collaborative Storytelling**  
+  Enables several users to co-author stories with several built-in tooling such as generic notes, timelines,.
 
-To learn more about Next.js, take a look at the following resources:
+- **Responsive Frontend**  
+  Built with Next.js and Tailwind CSS for a sleek, fast, and mobile-friendly user experience.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Hybrid Data Storage Architecture**  
+  Uses PostgreSQL for structured metadata, DynamoDB for flexible, fast-access data of unstructured content like story drafts, and S3 for user media.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **AI-Assisted Writing Tools**  
+  Integrates Google Gemini API to provide intelligent assistance with plot ideation, worldbuilding, and character creation.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## How It Works
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Users register and create profiles to start writing stories.  
+2. The frontend interacts with FastAPI backend APIs for CRUD operations on stories and user data.  
+3. PostgreSQL stores structured data such as user info, story metadata, and permissions.  
+4. DynamoDB supports fast retrieval and flexible querying of key story components, such as chapter content, chapter name, and creation date.  
+5. AWS S3 stores public images and other media assets such as user profile pictures and book covers.  
+6. Google Gemini API powers AI-assisted writing features for plot ideation, worldbuilding, and character creation. However, AI is intentionally not integrated directly into the text editor to encourage writers to create their own stories without over-reliance on AI-generated content.
+
+---
+
+## What I Learned
+
+- Designing hybrid cloud storage solutions combining relational and NoSQL databases for scalable full-stack applications.  
+- Building modern server-rendered React apps with Next.js and Tailwind CSS for optimal UX and performance.  
+- Developing RESTful APIs using FastAPI and integrating complex cloud services (AWS RDS, DynamoDB, S3).  
+- Embedding AI capabilities via Google Gemini API to augment user creativity and content generation.
+
+---
+
+## Note
+
+Mythiqa is currently an MVP under active and rapid development. Features and integrations may evolve as the platform matures. The application is not yet deployed.
+
+---
+
