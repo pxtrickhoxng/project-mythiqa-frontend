@@ -1,20 +1,21 @@
 import Link from 'next/link';
-import { auth, currentUser } from '@clerk/nextjs/server';
 import UserDropdown from './UserDropdown';
-import { fetchUserProfileImg } from '@/lib/api';
 
-const NavAuth = async () => {
-  const { userId, getToken } = await auth();
+interface AuthData {
+  isAuthenticated: boolean;
+  username: string;
+  imageUrl: string;
+}
 
-  const token = await getToken();
-  const user = await currentUser();
+interface NavAuthProps {
+  authData: AuthData | null;
+}
 
-  if (userId && user?.username && token) {
-    const res = await fetchUserProfileImg(user?.username);
-    const data = await res.json();
+const NavAuth = ({ authData }: NavAuthProps) => {
+  if (authData?.isAuthenticated) {
     return (
       <div className='flex justify-end items-center flex-1 gap-6'>
-        <UserDropdown imageUrl={data.user_profile_img_url} username={user.username} />
+        <UserDropdown imageUrl={authData.imageUrl} username={authData.username} />
       </div>
     );
   }

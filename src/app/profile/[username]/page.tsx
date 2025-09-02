@@ -9,6 +9,14 @@ type PageProps = {
   };
 };
 
+type UserDataType = {
+  username: string;
+  description: string;
+  profileBackgroundImgUrl: string;
+  userProfileUrl: string;
+  createdAt: string;
+};
+
 const page = async ({ params }: PageProps) => {
   const user = await currentUser();
 
@@ -24,14 +32,8 @@ const page = async ({ params }: PageProps) => {
     );
   }
 
-  const { getToken } = await auth();
-  const token = await getToken?.();
-
-  const userData = await fetchUserData(username, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const userData = await fetchUserData(username);
+  console.log(userData);
 
   if (!userData) {
     return (
@@ -42,8 +44,8 @@ const page = async ({ params }: PageProps) => {
     );
   }
 
-  const joinDate = userData?.created_at
-    ? new Date(userData.created_at).toLocaleDateString(undefined, {
+  const joinDate = userData?.createdAt
+    ? new Date(userData.createdAt).toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'long',
       })
@@ -54,7 +56,7 @@ const page = async ({ params }: PageProps) => {
       <div className='w-5xl min-w-[320px] mx-auto bg-white rounded-xl shadow-lg flex flex-col items-center overflow-hidden'>
         <div className='w-full h-100 relative'>
           <Image
-            src={userData?.profile_background_img_url || user?.imageUrl}
+            src={userData?.profileBackgroundImgUrl || user?.imageUrl}
             alt='Background'
             fill
             className='object-cover object-center z-0'
@@ -62,7 +64,7 @@ const page = async ({ params }: PageProps) => {
           />
           <div className='absolute left-1/2 bottom-0 z-10 translate-x-[-50%] translate-y-1/2'>
             <Image
-              src={userData.user_profile_url || '/defaultimage.jpg'}
+              src={userData.userProfileUrl || '/defaultimage.jpg'}
               alt='Profile'
               className='w-30 h-30 rounded-full border-4 border-white shadow-lg object-cover bg-gray-200'
               width={96}

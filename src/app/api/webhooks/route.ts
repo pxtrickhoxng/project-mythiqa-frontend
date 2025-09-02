@@ -11,30 +11,16 @@ export async function POST(req: NextRequest) {
     const evt = await verifyWebhook(req);
     if (evt.type === 'user.created') {
       const userPayload = {
-        user_id: evt.data.id,
+        userId: evt.data.id,
         username: evt.data.username,
         email: evt.data.email_addresses[0].email_address,
         description: null,
-        profile_background_img_url: null,
-        user_profile_url: evt.data.image_url,
+        userBackgroundImgUrl: null,
+        userProfileImgUrl: evt.data.image_url,
         role: roles.user,
       };
 
       await createUser(userPayload);
-    }
-
-    // handles user update via clerk dashboard
-    if (evt.type === 'user.updated') {
-      const userPayload = {
-        user_id: evt.data.id,
-        username: evt.data.username,
-        email: evt.data.email_addresses[0].email_address,
-        description: null,
-        profile_background_img_url: null,
-        user_profile_url: evt.data.image_url,
-        role: roles.user,
-      };
-      await updateUser(userPayload, token);
     }
 
     // handles deletion via clerk dashboard

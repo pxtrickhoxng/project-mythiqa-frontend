@@ -1,27 +1,27 @@
 import { timelineCardFormType } from '@/utils/types';
-import { RequestInit } from 'next/dist/server/web/spec-extension/request';
-const baseUrl = 'http://localhost:8000';
+
+const baseUrl = 'http://localhost:8080';
 
 type userType = {
-  user_id: string;
+  userId: string;
   username: string | null;
   email: string;
   description: string | null;
-  profile_background_img_url: string | null;
-  user_profile_url: string | null;
+  userBackgroundImgUrl: string | null;
+  userProfileImgUrl: string | null;
   role: 'user' | 'admin';
 };
 
 type updateUserType = {
   username: string;
-  profile_background_img_url: string | null;
-  user_profile_url: string | null;
+  userBackgroundImgFile: File | null;
+  userProfileImgFile: File | null;
   description: string | null;
 };
 
-export const fetchUserData = async (username: string, init?: RequestInit) => {
+export const fetchUserData = async (username: string) => {
   try {
-    const res = await fetch(`${baseUrl}/api/users/${username}`, init);
+    const res = await fetch(`${baseUrl}/api/users/${username}`);
     if (!res.ok) {
       return null;
     }
@@ -33,9 +33,18 @@ export const fetchUserData = async (username: string, init?: RequestInit) => {
   }
 };
 
-const token = process.env.CLERK_SECRET_KEY;
+export const userExists = async (userId: string, token: string) => {
+  const res = await fetch(`${baseUrl}/api/users/id/${userId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-export const createUser = async (user: userType) => {
+  return res;
+};
+
+export const createUser = async (user: userType, token: string) => {
   const res = await fetch(`${baseUrl}/api/users/create`, {
     method: 'POST',
     headers: {
@@ -53,13 +62,28 @@ export const createUser = async (user: userType) => {
 };
 
 export const updateUser = async (user: updateUserType, token: string) => {
+  const formData = new FormData();
+
+  if (user.username) {
+    formData.append('username', user.username);
+  }
+
+  if (user.description) {
+    formData.append('description', user.description);
+  }
+  if (user.userBackgroundImgFile) {
+    formData.append('userBackgroundImgFile', user.userBackgroundImgFile);
+  }
+  if (user.userProfileImgFile) {
+    formData.append('userProfileImgFile', user.userProfileImgFile);
+  }
+
   const res = await fetch(`${baseUrl}/api/users/update`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(user),
+    body: formData,
   });
 
   if (!res.ok) {
@@ -90,8 +114,8 @@ export const deleteUser = async (userId: string, token: string) => {
 export const uploadUserImages = async (bgImgFile: File, userProfileImgFile: File, token: string) => {
   const formData = new FormData();
 
-  formData.append('bg_img_file', bgImgFile);
-  formData.append('user_profile_img_file', userProfileImgFile);
+  formData.append('bgImgFile', bgImgFile);
+  formData.append('profileImgFile', userProfileImgFile);
 
   const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
   if (bucket) {
@@ -113,13 +137,19 @@ export const uploadUserImages = async (bgImgFile: File, userProfileImgFile: File
 };
 
 export const fetchUserProfileImg = async (username: string) => {
-  const res = await fetch(`${baseUrl}/api/users/${username}/profile-img`);
+  try {
+    const res = await fetch(`${baseUrl}/api/users/${username}/profile-img`);
 
-  if (!res.ok) {
-    throw new Error('Failed to retrieve user profile img');
+    if (!res.ok) {
+      return null;
+    }
+
+    const data = await res.json();
+    return data?.userProfileImgUrl || null;
+  } catch (err) {
+    console.error('Failed to fetch user profile image', err);
+    return null;
   }
-
-  return res;
 };
 
 export const createStory = async (formData: FormData, userId: string, token: string) => {

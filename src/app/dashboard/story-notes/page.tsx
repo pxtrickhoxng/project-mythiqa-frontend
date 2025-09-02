@@ -21,7 +21,7 @@ const page = async () => {
 
   return (
     <div className='bg-white rounded-lg shadow-sm border border-gray-200'>
-      <ReturnToDashboard/>
+      <ReturnToDashboard />
       <div className='flex items-center justify-between mb-6 px-20 py-10'>
         <h2 className='text-xl font-semibold text-gray-800'>Stories</h2>
       </div>
@@ -54,10 +54,10 @@ const page = async () => {
             <div className='absolute inset-0 bg-black/40 rounded-lg flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
               <div className='space-y-3'>
                 <Link
-                  href={`/dashboard/manage-plot/${book.book_id}`}
+                  href={`/dashboard/story-notes/${book.book_id}`}
                   className='block w-full px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors text-center'
                 >
-                  Manage Plot
+                  Manage Story Notes
                 </Link>
               </div>
             </div>

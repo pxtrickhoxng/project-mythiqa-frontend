@@ -8,7 +8,7 @@ const page = async () => {
   const { getToken } = await auth();
   const token = await getToken?.();
 
-  if (!username) {
+  if (!username || !token) {
     return (
       <div className='max-w-xl mx-auto p-4 text-center text-red-600 font-semibold'>
         Please login to edit your profile.
@@ -16,19 +16,14 @@ const page = async () => {
     );
   }
 
-  const userData = await fetchUserData(username, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
+  const userData = await fetchUserData(username, token);
   if (userData) {
     return (
       <EditProfileForm
         username={username}
         userDescription={userData.description}
-        currentBgImg={userData.profile_background_img_url}
-        currentProfileImg={userData.user_profile_url}
+        currentBgImg={userData.profileBackgroundImgUrl}
+        currentProfileImg={userData.userProfileUrl}
       />
     );
   } else {

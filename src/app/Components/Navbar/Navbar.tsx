@@ -1,25 +1,18 @@
 import Logo from './NavbarItems/Logo';
 import NavbarCenter from './NavbarItems/NavbarCenter';
 import NavAuth from './NavbarItems/NavAuth';
-import { auth, currentUser } from '@clerk/nextjs/server';
-import { fetchUserProfileImg } from '@/lib/api';
 
-const Navbar = async () => {
-  const { userId, getToken } = await auth();
-  const token = await getToken();
-  const user = await currentUser();
+interface AuthData {
+  isAuthenticated: boolean;
+  username: string;
+  imageUrl: string;
+}
 
-  let authData = null;
-  if (userId && user?.username && token) {
-    const res = await fetchUserProfileImg(user?.username, token);
-    const data = await res.json();
-    authData = {
-      isAuthenticated: true,
-      username: user.username,
-      imageUrl: data.user_profile_img_url,
-    };
-  }
+interface NavbarProps {
+  authData: AuthData | null;
+}
 
+const Navbar = ({ authData }: NavbarProps) => {
   return (
     <nav
       className={
@@ -30,7 +23,7 @@ const Navbar = async () => {
         <Logo />
         <NavbarCenter authData={authData} />
         <div className='hidden md:flex justify-end flex-1'>
-          <NavAuth />
+          <NavAuth authData={authData} />
         </div>
       </div>
     </nav>

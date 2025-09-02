@@ -2,7 +2,6 @@
 import { updateUser } from '../../../lib/api';
 import { useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import { uploadUserImages } from '../../../lib/api';
 import Image from 'next/image';
 
 type EditProfileFormTypes = {
@@ -16,43 +15,81 @@ const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfi
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [usernameInput, setUsernameInput] = useState(username);
+  const [description, setDescription] = useState(userDescription);
+  const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+  const [backgroundImageFile, setBackgroundImageFile] = useState<File | null>(null);
+
+  const [profilePreview, setProfilePreview] = useState<string | null>(null);
+  const [backgroundPreview, setBackgroundPreview] = useState<string | null>(null);
+
   const successMessage = 'Profile updated successfully!';
 
   const { getToken } = useAuth();
+
+  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImageFile(file);
+      const reader = new FileReader();
+      reader.onload = () => setProfilePreview(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleBackgroundImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setBackgroundImageFile(file);
+      const reader = new FileReader();
+      reader.onload = () => setBackgroundPreview(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
 
-    const formData = new FormData(e.currentTarget);
+    // Check if username contains spaces
+    if (usernameInput.includes(' ')) {
+      setMessage('Username cannot contain spaces.');
+      setLoading(false);
+      return;
+    }
 
-    const userBgImgFile = formData.get('bgImgFile') as File;
-    const userProfileImgFile = formData.get('profileImg') as File;
+    // Check if username contains special characters (only allow letters, numbers, underscores, and hyphens)
+    const specialCharRegex = /[^a-zA-Z0-9_-]/;
+    if (specialCharRegex.test(usernameInput)) {
+      setMessage('Username cannot contain special characters.');
+      setLoading(false);
+      return;
+    }
 
-    const tokenForUpdate = await getToken();
+    const token = await getToken();
 
-    if (!tokenForUpdate) {
+    if (!token) {
       setMessage('Authentication error. Please log in again.');
       setLoading(false);
       return;
     }
 
-    const res = await uploadUserImages(userBgImgFile, userProfileImgFile, tokenForUpdate);
-    const data = await res.json();
-
-    const updatedUser = {
-      username: formData.get('username') as string,
-      profile_background_img_url: data.bg_img_url as string,
-      user_profile_url: data.profile_img_url as string,
-      description: formData.get('description') as string,
+    const updatedUserPayload = {
+      username: usernameInput,
+      userBackgroundImgFile: backgroundImageFile,
+      userProfileImgFile: profileImageFile,
+      description: description,
     };
 
     try {
-      const res = await updateUser(updatedUser, tokenForUpdate);
+      const res = await updateUser(updatedUserPayload, token);
       if (res.ok) {
         setMessage(successMessage);
-        setTimeout(() => setMessage(''), 3000);
+        setTimeout(() => {
+          setMessage('');
+          window.location.reload();
+        }, 1500);
       } else {
         setMessage('Profile failed to update. Please try again.');
         setTimeout(() => setMessage(''), 3000);
@@ -79,7 +116,8 @@ const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfi
           id='username'
           name='username'
           type='text'
-          defaultValue={username}
+          value={usernameInput}
+          onChange={e => setUsernameInput(e.target.value)}
           className='w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 text-black'
           required
         />
@@ -95,12 +133,13 @@ const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfi
             type='file'
             name='profileImg'
             accept='image/*'
+            onChange={handleProfileImageChange}
             className='block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100'
           />
         </div>
         <div className='w-[160px] h-[160px] mx-auto mt-4 rounded-full overflow-hidden border border-gray-300 flex items-center justify-center'>
           <Image
-            src={currentProfileImg}
+            src={profilePreview || currentProfileImg}
             width={160}
             height={160}
             alt="user's current profile picture"
@@ -119,15 +158,16 @@ const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfi
             type='file'
             name='bgImgFile'
             accept='image/*'
+            onChange={handleBackgroundImageChange}
             className='block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100'
           />
         </div>
         <div>
           <Image
-            src={currentBgImg}
+            src={backgroundPreview || currentBgImg}
             width={1200}
             height={192}
-            alt="user's current profile picture"
+            alt="user's current background image"
             className='h-90 object-cover object-center mt-4'
           />
         </div>
@@ -140,7 +180,8 @@ const EditProfileForm = ({ username, userDescription, currentBgImg, currentProfi
         <textarea
           id='description'
           name='description'
-          defaultValue={userDescription}
+          value={description}
+          onChange={e => setDescription(e.target.value)}
           rows={5}
           placeholder='Tell us about yourself...'
           className='w-full p-3 border border-gray-300 rounded resize-none focus:outline-none focus:ring-2 focus:ring-green-500 text-black'

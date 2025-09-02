@@ -31,15 +31,22 @@ export default function UserDropdown({ imageUrl, username }: { imageUrl: string;
     <div className='relative flex items-center gap-3' ref={dropdownRef}>
       <p>{username}</p>
       <div className='w-[35px] h-[35px] rounded-full overflow-hidden border border-gray-300 cursor-pointer bg-white'>
-        <Image
-          src={imageUrl}
-          alt='user profile image'
-          width={35}
-          height={35}
-          className='object-cover w-full h-full hover:opacity-80 transition ease-in-out'
-          onClick={() => setOpen(!open)}
-        />
-      </div>{' '}
+        {imageUrl ? (
+          <Image
+            src={imageUrl}
+            alt='user profile image'
+            width={35}
+            height={35}
+            className='object-cover w-full h-full hover:opacity-80 transition ease-in-out'
+            onClick={() => setOpen(!open)}
+          />
+        ) : (
+          // fallback UI if no image
+          <div className='w-full h-full bg-gray-200 flex items-center justify-center' onClick={() => setOpen(!open)}>
+            <span className='text-gray-500'>👤</span>
+          </div>
+        )}
+      </div>
       {open && (
         <div className='absolute top-12 right-0 bg-white shadow-lg rounded-lg px-6 py-3 z-50 min-w-[220px] w-64 flex flex-col items-start gap-2'>
           <Link

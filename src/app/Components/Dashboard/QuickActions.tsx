@@ -21,7 +21,10 @@ const QuickActions = () => {
             <p className='text-sm text-gray-500'>Create a new story project</p>
           </div>
         </Link>
-        <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition-colors group'>
+        <Link
+          className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition-colors group'
+          href='/dashboard/story-notes'
+        >
           <div className='w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors'>
             <svg className='w-4 h-4 text-yellow-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path
@@ -36,7 +39,7 @@ const QuickActions = () => {
             <p className='font-medium text-gray-700 group-hover:text-yellow-700'>Story Notes</p>
             <p className='text-sm text-gray-500'>Keep track of ideas and notes</p>
           </div>
-        </button>
+        </Link>
         <Link
           className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors group'
           href='/dashboard/manage-plot'
