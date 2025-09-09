@@ -1,7 +1,7 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import { deleteTimelineCard } from '@/lib/api';
-import { useAuth } from '@clerk/nextjs';
+"use client";
+import { useRouter } from "next/navigation";
+import { deleteTimelineCard } from "@/lib/api/timeline";
+import { useAuth } from "@clerk/nextjs";
 
 type DeleteCardProps = {
   bookId: string;
@@ -16,7 +16,7 @@ const DeleteTimelineCard = ({ bookId, index }: DeleteCardProps) => {
     const token = await getToken();
 
     if (!token) {
-      console.error('Failed to delete timeline card');
+      console.error("Failed to delete timeline card");
       return;
     }
 
@@ -26,7 +26,7 @@ const DeleteTimelineCard = ({ bookId, index }: DeleteCardProps) => {
     }
   };
   return (
-    <button className='text-red-600 hover:text-red-800' onClick={deleteCard}>
+    <button className="text-red-600 hover:text-red-800" onClick={deleteCard}>
       Delete
     </button>
   );

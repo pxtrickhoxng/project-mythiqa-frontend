@@ -1,8 +1,9 @@
-import Link from 'next/link';
-import UserDropdown from './UserDropdown';
+import Link from "next/link";
+import UserDropdown from "./UserDropdown";
 
 interface AuthData {
   isAuthenticated: boolean;
+  displayName: string;
   username: string;
   imageUrl: string;
 }
@@ -14,22 +15,26 @@ interface NavAuthProps {
 const NavAuth = ({ authData }: NavAuthProps) => {
   if (authData?.isAuthenticated) {
     return (
-      <div className='flex justify-end items-center flex-1 gap-6'>
-        <UserDropdown imageUrl={authData.imageUrl} username={authData.username} />
+      <div className="flex justify-end items-center flex-1 gap-6">
+        <UserDropdown
+          imageUrl={authData.imageUrl}
+          username={authData.username}
+          displayName={authData.displayName}
+        />
       </div>
     );
   }
 
   return (
-    <div className='flex justify-end items-center flex-1 gap-6'>
+    <div className="flex justify-end items-center flex-1 gap-6">
       <Link
-        href='/sign-in'
+        href="/sign-in"
         className="relative hover:text-gray-600 transition after:content-[''] after:block after:h-[2px] after:bg-gray-500 after:w-0 after:transition-all after:duration-300 after:absolute after:left-0 after:-bottom-1 hover:after:w-full"
       >
         Sign in
       </Link>
       <Link
-        href='/sign-up'
+        href="/sign-up"
         className="relative hover:text-gray-600 transition after:content-[''] after:block after:h-[2px] after:bg-gray-500 after:w-0 after:transition-all after:duration-300 after:absolute after:left-0 after:-bottom-1 hover:after:w-full"
       >
         Sign up

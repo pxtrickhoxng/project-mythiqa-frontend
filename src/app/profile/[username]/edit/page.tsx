@@ -1,6 +1,6 @@
-import { currentUser, auth } from '@clerk/nextjs/server';
-import { fetchUserData } from '@/lib/api';
-import EditProfileForm from '@/app/Components/Profile/EditProfileForm';
+import { currentUser, auth } from "@clerk/nextjs/server";
+import { fetchUserData } from "@/lib/api/users";
+import EditProfileForm from "@/app/Components/Profile/EditProfileForm";
 
 const page = async () => {
   const user = await currentUser();
@@ -10,7 +10,7 @@ const page = async () => {
 
   if (!username || !token) {
     return (
-      <div className='max-w-xl mx-auto p-4 text-center text-red-600 font-semibold'>
+      <div className="max-w-xl mx-auto p-4 text-center text-red-600 font-semibold">
         Please login to edit your profile.
       </div>
     );

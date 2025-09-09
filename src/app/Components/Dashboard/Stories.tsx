@@ -1,7 +1,7 @@
-import { fetchStories } from '@/lib/api';
-import { currentUser, auth } from '@clerk/nextjs/server';
-import BookList from './BookList';
-import { Book } from '@/utils/types';
+import { fetchStories } from "@/lib/api/books";
+import { currentUser, auth } from "@clerk/nextjs/server";
+import BookList from "./BookList";
+import { Book } from "@/utils/types";
 
 const Stories = async () => {
   const user = await currentUser();
@@ -18,17 +18,17 @@ const Stories = async () => {
   }
 
   return (
-    <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6'>
-      <div className='flex items-center justify-between mb-6'>
-        <h2 className='text-xl font-semibold text-gray-800'>Stories</h2>
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-800">Stories</h2>
       </div>
 
       {books.length > 0 ? (
         <BookList books={books} />
       ) : (
-        <div className='text-center py-12'>
-          <p className='text-gray-500 text-lg'>
-            Looks like there&apos;s nothing here. You should try and make one with the tools above!
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">
+            Looks like there&apos;s nothing here. Try making a story with the tools above!
           </p>
         </div>
       )}
