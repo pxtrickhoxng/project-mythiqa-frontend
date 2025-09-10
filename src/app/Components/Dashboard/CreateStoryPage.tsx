@@ -21,15 +21,13 @@ const CreateStoryPage = () => {
     }
   }, [existingBook]);
 
-  const [formData, setFormData] = useState({
-    bookName: "",
-    bookType: "",
-    description: "",
-    genre: "",
-    targetAudience: "",
-    bookCover: null as File | null,
-    contentWarnings: [] as string[],
-  });
+  const [bookName, setBookName] = useState("");
+  const [bookType, setBookType] = useState("");
+  const [description, setDescription] = useState("");
+  const [genre, setGenre] = useState("");
+  const [targetAudience, setTargetAudience] = useState("");
+  const [bookCover, setBookCover] = useState<File | null>(null);
+  const [contentWarnings, setContentWarnings] = useState("");
 
   const bookTypes = [
     "Novel",
@@ -84,26 +82,38 @@ const CreateStoryPage = () => {
     >
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    switch (name) {
+      case "bookName":
+        setBookName(value);
+        break;
+      case "bookType":
+        setBookType(value);
+        break;
+      case "description":
+        setDescription(value);
+        break;
+      case "genre":
+        setGenre(value);
+        break;
+      case "targetAudience":
+        setTargetAudience(value);
+        break;
+    }
   };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setFormData((prev) => ({
-      ...prev,
-      bookCover: file,
-    }));
+    setBookCover(file);
   };
 
   const handleContentWarningChange = (warning: string, checked: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      contentWarnings: checked
-        ? [...prev.contentWarnings, warning]
-        : prev.contentWarnings.filter((w) => w !== warning),
-    }));
+    setContentWarnings(prev => {
+      const warnings = prev ? prev.split(',').map(w => w.trim()) : [];
+      if (checked && !warnings.includes(warning)) {
+        return [...warnings, warning].join(', ');
+      }
+      return warnings.filter(w => w !== warning).join(', ');
+    });
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,20 +132,17 @@ const CreateStoryPage = () => {
       }
 
       const apiFormData = new FormData();
-      apiFormData.append("book_name", formData.bookName);
-      apiFormData.append("book_type", formData.bookType);
-      apiFormData.append("description", formData.description || "");
-      apiFormData.append("genre", formData.genre || "");
-      apiFormData.append("target_audience", formData.targetAudience || "");
-      apiFormData.append(
-        "content_warnings",
-        JSON.stringify(formData.contentWarnings)
-      );
-      if (formData.bookCover) {
-        apiFormData.append("book_cover", formData.bookCover);
+      apiFormData.append("bookName", bookName);
+      apiFormData.append("bookType", bookType);
+      apiFormData.append("description", description || "");
+      apiFormData.append("genre", genre || "");
+      apiFormData.append("targetAudience", targetAudience || "");
+      apiFormData.append("contentWarnings", contentWarnings);
+      if (bookCover) {
+        apiFormData.append("bookCover", bookCover);
       }
 
-      const response = await createStory(apiFormData, userId, token);
+      const response = await createStory(apiFormData, token);
 
       if (response.ok) {
         setExistingBook(false);
@@ -213,7 +220,7 @@ const CreateStoryPage = () => {
               type="text"
               id="bookName"
               name="bookName"
-              value={formData.bookName}
+              value={bookName}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               placeholder="Enter your story title..."
@@ -241,10 +248,10 @@ const CreateStoryPage = () => {
                   PNG, JPG, GIF up to 10MB. Recommended: 600x900px
                 </p>
               </div>
-              {formData.bookCover && (
+              {bookCover && (
                 <div className="w-16 h-20 bg-gray-100 rounded border flex items-center justify-center">
                   <Image
-                    src={URL.createObjectURL(formData.bookCover)}
+                    src={URL.createObjectURL(bookCover)}
                     alt="Book cover preview"
                     width={50}
                     height={50}
@@ -264,7 +271,7 @@ const CreateStoryPage = () => {
             <select
               id="bookType"
               name="bookType"
-              value={formData.bookType}
+              value={bookType}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               required
@@ -287,14 +294,14 @@ const CreateStoryPage = () => {
             <select
               id="genre"
               name="genre"
-              value={formData.genre}
+              value={genre}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             >
               <option value="">Select a genre...</option>
-              {genres.map((genre) => (
-                <option key={genre} value={genre}>
-                  {genre}
+              {genres.map((g) => (
+                <option key={g} value={g}>
+                  {g}
                 </option>
               ))}
             </select>
@@ -309,7 +316,7 @@ const CreateStoryPage = () => {
             <select
               id="targetAudience"
               name="targetAudience"
-              value={formData.targetAudience}
+              value={targetAudience}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             >
@@ -320,7 +327,7 @@ const CreateStoryPage = () => {
                 </option>
               ))}
             </select>{" "}
-            {formData.targetAudience === "Adult (18+)" && (
+            {targetAudience === "Adult (18+)" && (
               <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
                 <div className="mb-3">
                   <p className="text-sm text-red-800">
@@ -343,7 +350,7 @@ const CreateStoryPage = () => {
                       >
                         <input
                           type="checkbox"
-                          checked={formData.contentWarnings.includes(warning)}
+                          checked={contentWarnings.split(',').map(w => w.trim()).includes(warning)}
                           onChange={(e) =>
                             handleContentWarningChange(
                               warning,
@@ -379,7 +386,7 @@ const CreateStoryPage = () => {
             <textarea
               id="description"
               name="description"
-              value={formData.description}
+              value={description}
               onChange={handleInputChange}
               rows={4}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical"

@@ -1,21 +1,21 @@
 export type Book = {
-  book_id: number;
-  user_id: string;
-  book_name: string;
-  book_type?: string;
+  bookId: number;
+  userId: string;
+  bookName: string;
+  bookType: string;
   description?: string;
-  genre?: string;
-  target_audience?: string;
-  content_warnings?: string[];
-  book_cover_url?: string;
-  created_at: string;
+  genre: string;
+  targetAudience?: string;
+  contentWarnings?: string;
+  bookCoverUrl?: string;
+  createdAt: string;
 };
 
 export type Chapter = {
-  chapter_id: string;
-  chapter_name: string;
-  chapter_number: string;
-  creation_date: string;
+  chapterId: string;
+  chapterName: string;
+  chapterNumber: string;
+  createdAt: string;
 };
 
 // Types for new timeline card

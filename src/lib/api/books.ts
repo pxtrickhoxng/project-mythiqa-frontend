@@ -1,9 +1,29 @@
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const BOOKS_API = `${BASE_URL}/api/books`;
 
+type BookType = {
+  bookId: number;
+  userId: string;
+  bookName: string;
+  bookType: string;
+  description?: string;
+  genre: string;
+  targetAudience?: string;
+  contentWarnings?: string;
+  bookCoverUrl?: string;
+  createdAt: string;
+};
+
+type Chapter = {
+  chapterId: string;
+  chapterName: string;
+  chapterNumber: string;
+  createdAt: string;
+};
+
+
 export const createStory = async (
   formData: FormData,
-  userId: string,
   token: string
 ) => {
   const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
@@ -12,7 +32,7 @@ export const createStory = async (
   }
   formData.append("bucket", bucket);
 
-  const res = await fetch(`${BOOKS_API}/${userId}/create-story`, {
+  const res = await fetch(`${BOOKS_API}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -70,18 +90,14 @@ export const createChapter = async (
   return res;
 };
 
-export const fetchStories = async (userId: string, token: string) => {
-  const res = await fetch(`${BOOKS_API}/${userId}/stories`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export const fetchStories = async (userId: string): Promise<BookType[]> => {
+  const res = await fetch(`${BOOKS_API}/user/${userId}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch user stories");
   }
 
-  return res;
+  return res.json();
 };
 
 export const fetchBookData = async (bookId: string, token: string) => {

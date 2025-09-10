@@ -7,14 +7,14 @@ const BookList = ({ books }: { books: Book[] }) => {
     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
       {books.map((book: Book) => (
         <div
-          key={book.book_id}
+          key={book.bookId}
           className='relative flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition-all duration-200 group'
         >
-          {book.book_cover_url ? (
+          {book.bookCoverUrl ? (
             <div className='w-32 h-48 mb-3 relative'>
               <Image
-                src={book.book_cover_url}
-                alt={`${book.book_name} cover`}
+                src={book.bookCoverUrl}
+                alt={'book cover'}
                 fill
                 className='object-cover rounded-md group-hover:brightness-75 transition-all duration-200'
               />
@@ -26,19 +26,19 @@ const BookList = ({ books }: { books: Book[] }) => {
           )}
 
           <h3 className='text-sm font-medium text-gray-900 text-center line-clamp-2 group-hover:text-gray-700 transition-colors duration-200'>
-            {book.book_name}
+            {book.bookName}
           </h3>
 
           <div className='absolute inset-0 bg-black/40 rounded-lg flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
             <div className='space-y-3'>
               <Link
-                href={`/book/${book.book_id}`}
+                href={`/book/${book.bookId}`}
                 className='block w-full px-6 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors text-center'
               >
                 View Story
               </Link>
               <Link
-                href={`/dashboard/create/new-chapter/${book.book_id}`}
+                href={`/dashboard/create/new-chapter/${book.bookId}`}
                 className='block w-full px-6 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors text-center'
               >
                 Create Chapter

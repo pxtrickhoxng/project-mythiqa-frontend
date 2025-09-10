@@ -11,9 +11,9 @@ const Stories = async () => {
   let books: Book[] = [];
 
   if (user && token) {
-    const res = await fetchStories(user?.id, token);
-    if (res.ok) {
-      books = await res.json();
+    const res = await fetchStories(user.id);
+    if (res) {
+      books = res;
     }
   }
 

@@ -41,18 +41,18 @@ const page = async ({ params }: PageProps) => {
                 </div>
               )}
 
-              {book.content_warnings && book.content_warnings.length > 0 && (
+              {book.contentWarnings && book.contentWarnings.trim() !== "" && (
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-yellow-800 mb-2">
                     Content Warnings
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {book.content_warnings.map((warning, index) => (
+                    {book.contentWarnings.split(',').map((warning, index) => (
                       <span
                         key={index}
                         className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium"
                       >
-                        {warning}
+                        {warning.trim()}
                       </span>
                     ))}
                   </div>
@@ -72,19 +72,19 @@ const page = async ({ params }: PageProps) => {
                   <div className="divide-y divide-gray-200">
                     {chapters.map((chapter, index) => (
                       <Link
-                        key={chapter.chapter_id}
-                        href={`/read/${book.book_name}/${
-                          book.book_id
+                        key={chapter.chapterId}
+                        href={`/read/${book.bookName}/${
+                          book.bookId
                         }/chapter/${index + 1}`}
                         className="block p-4 hover:bg-gray-50 transition-colors"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
                             <h3 className="font-medium text-gray-900">
-                              Chapter {index + 1}: {chapter.chapter_name}
+                              Chapter {index + 1}: {chapter.chapterName}
                             </h3>
                             <p className="text-sm text-gray-500 mt-1">
-                              Published {formatDate(chapter.creation_date)}
+                              Published {formatDate(chapter.createdAt)}
                             </p>
                           </div>
                         </div>
