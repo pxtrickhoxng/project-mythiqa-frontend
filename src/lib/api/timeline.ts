@@ -1,6 +1,6 @@
 import { timelineCardFormType } from "@/utils/types";
 
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const TIMELINE_API = `${BASE_URL}/api/timeline`;
 
 export const fetchTimelineCards = async (bookId: string, token: string) => {

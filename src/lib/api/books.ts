@@ -1,4 +1,4 @@
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const BOOKS_API = `${BASE_URL}/api/books`;
 
 export const createStory = async (

@@ -37,7 +37,7 @@ export default function UserDropdown({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
-  console.log(displayName);
+ 
   return (
     <div className="relative flex items-center gap-3" ref={dropdownRef}>
       <p>{displayName}</p>

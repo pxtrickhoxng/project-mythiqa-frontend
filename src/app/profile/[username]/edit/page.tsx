@@ -16,14 +16,15 @@ const page = async () => {
     );
   }
 
-  const userData = await fetchUserData(username, token);
+  const userData = await fetchUserData(username);
   if (userData) {
     return (
       <EditProfileForm
-        username={username}
+        username={user.username}
+        displayName={userData.displayName}
         userDescription={userData.description}
-        currentBgImg={userData.profileBackgroundImgUrl}
-        currentProfileImg={userData.userProfileUrl}
+        currentBgImg={userData.userBackgroundImgUrl || user?.imageUrl}
+        currentProfileImg={userData.userProfileImgUrl || user?.imageUrl}
       />
     );
   } else {

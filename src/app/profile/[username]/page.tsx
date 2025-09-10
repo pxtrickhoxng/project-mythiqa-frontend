@@ -9,9 +9,6 @@ type PageProps = {
   };
 };
 
-// TODO
-// Reorganize api functions into subfolders for Users, Books, etc
-
 const page = async ({ params }: PageProps) => {
   const user = await currentUser();
 

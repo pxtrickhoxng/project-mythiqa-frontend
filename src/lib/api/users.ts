@@ -1,11 +1,11 @@
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const USERS_API = `${BASE_URL}/api/users`;
 
-type userType = {
+type CreateUserType = {
   userId: string;
-  username: string | null;
+  username: string;
   displayName: string;
-  email: string;
+  email: string | null;
   description: string | null;
   userBackgroundImgUrl: string | null;
   userProfileImgUrl: string | null;
@@ -13,7 +13,7 @@ type userType = {
 };
 
 type updateUserType = {
-  username: string;
+  displayName: string;
   userBackgroundImgFile: File | null;
   userProfileImgFile: File | null;
   description: string | null;
@@ -68,7 +68,7 @@ export const userExists = async (userId: string, token: string) => {
   return res;
 };
 
-export const createUser = async (user: userType, token: string) => {
+export const createUser = async (user: CreateUserType, token: string) => {
   const res = await fetch(`${USERS_API}`, {
     method: "POST",
     headers: {
@@ -88,8 +88,8 @@ export const createUser = async (user: userType, token: string) => {
 export const updateUser = async (user: updateUserType, token: string) => {
   const formData = new FormData();
 
-  if (user.username) {
-    formData.append("username", user.username);
+  if (user.displayName) {
+    formData.append("displayName", user.displayName);
   }
 
   if (user.description) {
@@ -160,3 +160,22 @@ export const fetchNumOfStories = async (userId: string) => {
 
   return res;
 };
+
+export const updateDisplayName = async (displayName: string, token: string) => {
+  const res = await fetch(`${USERS_API}/display-name`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({displayName})
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch books");
+  }
+
+  return res;
+};
+
+

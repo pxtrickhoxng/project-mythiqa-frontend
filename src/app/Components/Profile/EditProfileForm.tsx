@@ -2,10 +2,12 @@
 import { updateUser } from "@/lib/api/users";
 import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type EditProfileFormTypes = {
   username: string;
+  displayName: string;
   userDescription: string;
   currentBgImg: string;
   currentProfileImg: string;
@@ -13,6 +15,7 @@ type EditProfileFormTypes = {
 
 const EditProfileForm = ({
   username,
+  displayName,
   userDescription,
   currentBgImg,
   currentProfileImg,
@@ -20,7 +23,7 @@ const EditProfileForm = ({
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const [usernameInput, setUsernameInput] = useState(username);
+  const [displayNameInput, setDisplayNameInput] = useState(displayName);
   const [description, setDescription] = useState(userDescription);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [backgroundImageFile, setBackgroundImageFile] = useState<File | null>(
@@ -32,6 +35,7 @@ const EditProfileForm = ({
     null
   );
 
+  const router = useRouter();
   const successMessage = "Profile updated successfully!";
 
   const { getToken } = useAuth();
@@ -63,17 +67,17 @@ const EditProfileForm = ({
     setLoading(true);
     setMessage("");
 
-    // Check if username contains spaces
-    if (usernameInput.includes(" ")) {
-      setMessage("Username cannot contain spaces.");
+    // Check if display name contains spaces
+    if (displayNameInput.includes(" ")) {
+      setMessage("Display name cannot contain spaces.");
       setLoading(false);
       return;
     }
 
-    // Check if username contains special characters (only allow letters, numbers, underscores, and hyphens)
+    // Check if display name contains special characters (only allow letters, numbers, underscores, and hyphens)
     const specialCharRegex = /[^a-zA-Z0-9_-]/;
-    if (specialCharRegex.test(usernameInput)) {
-      setMessage("Username cannot contain special characters.");
+    if (specialCharRegex.test(displayNameInput)) {
+      setMessage("Display name cannot contain special characters.");
       setLoading(false);
       return;
     }
@@ -87,7 +91,7 @@ const EditProfileForm = ({
     }
 
     const updatedUserPayload = {
-      username: usernameInput,
+      displayName: displayNameInput,
       userBackgroundImgFile: backgroundImageFile,
       userProfileImgFile: profileImageFile,
       description: description,
@@ -99,7 +103,7 @@ const EditProfileForm = ({
         setMessage(successMessage);
         setTimeout(() => {
           setMessage("");
-          window.location.reload();
+          router.push(`/profile/${username}`);
         }, 1500);
       } else {
         setMessage("Profile failed to update. Please try again.");
@@ -121,17 +125,17 @@ const EditProfileForm = ({
       <h1 className="text-2xl font-bold mb-6 text-center">Edit Profile</h1>
       <div className="mb-5">
         <label
-          htmlFor="username"
+          htmlFor="display-name"
           className="block mb-1 font-semibold text-gray-700"
         >
-          Username
+          Display Name
         </label>
         <input
-          id="username"
-          name="username"
+          id="display-name"
+          name="display-name"
           type="text"
-          value={usernameInput}
-          onChange={(e) => setUsernameInput(e.target.value)}
+          value={displayNameInput}
+          onChange={(e) => setDisplayNameInput(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500 text-black"
           required
         />
