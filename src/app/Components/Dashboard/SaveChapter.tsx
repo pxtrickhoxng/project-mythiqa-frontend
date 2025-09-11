@@ -1,10 +1,8 @@
-import { JSONContent } from '@tiptap/react';
-
 type SaveChapterProps = {
   onSave: () => void;
   isSaving: boolean;
   saveStatus: 'idle' | 'success' | 'error';
-  editorContent: JSONContent | null;
+  editorContent: object | null;
 };
 
 const SaveChapter = ({ onSave, isSaving, saveStatus, editorContent }: SaveChapterProps) => {

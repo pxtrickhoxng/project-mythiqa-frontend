@@ -14,13 +14,6 @@ type BookType = {
   createdAt: string;
 };
 
-type Chapter = {
-  chapterId: string;
-  chapterName: string;
-  chapterNumber: string;
-  createdAt: string;
-};
-
 
 export const createStory = async (
   formData: FormData,
@@ -42,49 +35,6 @@ export const createStory = async (
 
   if (!res.ok && res.status !== 409) {
     throw new Error("Failed to create a new story");
-  }
-
-  return res;
-};
-
-export const getNewChapterNum = async (bookId: string, token: string) => {
-  const res = await fetch(`${BOOKS_API}/${bookId}/get-new-chapter-number`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to create chapter");
-  }
-
-  return res;
-};
-
-export const createChapter = async (
-  chapterContent: object,
-  chapterName: string,
-  chapterNumber: string,
-  bookId: string,
-  token: string
-) => {
-  const formData = new FormData();
-  formData.append("chapter_name", chapterName);
-  formData.append("chapter_content", JSON.stringify(chapterContent));
-
-  const res = await fetch(
-    `${BOOKS_API}/${bookId}/create-chapter/${chapterNumber}`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error("Failed to create chapter");
   }
 
   return res;
