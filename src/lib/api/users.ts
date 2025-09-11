@@ -12,12 +12,16 @@ type CreateUserType = {
   role: "user" | "admin";
 };
 
-type updateUserType = {
+type UpdateUserType = {
   displayName: string;
   userBackgroundImgFile: File | null;
   userProfileImgFile: File | null;
   description: string | null;
 };
+
+type UserDisplayNameType = {
+  userDisplayName: string;
+}
 
 type UserProfile = {
   displayName: string;
@@ -27,6 +31,14 @@ type UserProfile = {
   createdAt: string;
 };
 
+type UserProfileImgType = {
+  userProfileImgUrl: string | null;
+}
+
+type NumOfBooksType = {
+  count: number;
+}
+
 export const fetchUserData = async (
   username: string
 ): Promise<UserProfile | null> => {
@@ -35,29 +47,27 @@ export const fetchUserData = async (
     if (!res.ok) {
       return null;
     }
-    const data = await res.json();
-    return data;
+    return await res.json();
   } catch (error) {
     console.error("Fetch failed:", error);
     return null;
   }
 };
 
-export const fetchUserDisplayName = async (username: string) => {
+export const fetchUserDisplayName = async (username: string): Promise<UserDisplayNameType | null> => {
   try {
     const res = await fetch(`${USERS_API}/${username}/display-name`);
     if (!res.ok) {
       return null;
     }
-    const data = await res.json();
-    return data?.userDisplayName || null;
+    return await res.json();
   } catch (error) {
     console.error("Fetch failed:", error);
     return null;
   }
 };
 
-export const userExists = async (userId: string, token: string) => {
+export const userExists = async (userId: string, token: string): Promise<Response> => {
   const res = await fetch(`${USERS_API}/${userId}/exists`, {
     headers: {
       "Content-Type": "application/json",
@@ -68,7 +78,7 @@ export const userExists = async (userId: string, token: string) => {
   return res;
 };
 
-export const createUser = async (user: CreateUserType, token: string) => {
+export const createUser = async (user: CreateUserType, token: string): Promise<Response> => {
   const res = await fetch(`${USERS_API}`, {
     method: "POST",
     headers: {
@@ -82,10 +92,10 @@ export const createUser = async (user: CreateUserType, token: string) => {
     throw new Error("Failed to create user");
   }
 
-  return res.status;
+  return res;
 };
 
-export const updateUser = async (user: updateUserType, token: string) => {
+export const updateUser = async (user: UpdateUserType, token: string): Promise<Response> => {
   const formData = new FormData();
 
   if (user.displayName) {
@@ -118,7 +128,7 @@ export const updateUser = async (user: updateUserType, token: string) => {
 };
 
 // yet to be implemented
-export const deleteUser = async (userId: string, token: string) => {
+export const deleteUser = async (userId: string, token: string): Promise<Response> => {
   const res = await fetch(`${USERS_API}`, {
     method: "DELETE",
     headers: {
@@ -132,36 +142,33 @@ export const deleteUser = async (userId: string, token: string) => {
     throw new Error("Failed to delete user");
   }
 
-  return res.status;
+  return res;
 };
 
-export const fetchUserProfileImg = async (username: string) => {
+export const fetchUserProfileImg = async (username: string): Promise<UserProfileImgType | null> => {
   try {
     const res = await fetch(`${USERS_API}/${username}/profile-img`);
 
     if (!res.ok) {
       return null;
     }
-
-    const data = await res.json();
-    return data?.userProfileImgUrl || null;
+    return await res.json();
   } catch (err) {
     console.error("Failed to fetch user profile image", err);
     return null;
   }
 };
 
-export const fetchNumOfStories = async (userId: string) => {
+export const fetchNumOfStories = async (userId: string): Promise<NumOfBooksType> => {
   const res = await fetch(`${USERS_API}/${userId}/books/count`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch books");
   }
-
-  return res;
+  return await res.json();
 };
 
-export const updateDisplayName = async (displayName: string, token: string) => {
+export const updateDisplayName = async (displayName: string, token: string): Promise<Response> => {
   const res = await fetch(`${USERS_API}/display-name`, {
     method: "PUT",
     headers: {

@@ -9,8 +9,7 @@ const OverviewHeader = async () => {
 
   if (token && userId) {
     const res = await fetchNumOfStories(userId);
-    const data = await res.json();
-    numOfStories = data.count;
+    numOfStories = res.count;
   }
 
   return (

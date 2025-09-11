@@ -17,11 +17,11 @@ const BookPreview = async ({ book }: PropTypes) => {
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 items-start'>
           <div className='lg:col-span-1'>
             <div className='relative w-full max-w-sm mx-auto'>
-              {book.book_cover_url ? (
+              {book.bookCoverUrl ? (
                 <div className='relative aspect-[3/4] w-full rounded-lg overflow-hidden shadow-2xl'>
                   <Image
-                    src={book.book_cover_url}
-                    alt={`${book.book_name} cover`}
+                    src={book.bookCoverUrl}
+                    alt={`${book.bookName} cover`}
                     fill
                     className='object-cover'
                     priority
@@ -40,10 +40,10 @@ const BookPreview = async ({ book }: PropTypes) => {
           <div className='lg:col-span-2 text-gray-900'>
             <div className='space-y-6'>
               <div>
-                <h1 className='text-4xl lg:text-5xl font-bold mb-2 leading-tight text-gray-900'>{book.book_name}</h1>
-                {book.book_type && (
+                <h1 className='text-4xl lg:text-5xl font-bold mb-2 leading-tight text-gray-900'>{book.bookName}</h1>
+                {book.bookType && (
                   <span className='inline-block px-3 py-1 bg-gray-800 text-white rounded-full text-sm font-medium'>
-                    {book.book_type}
+                    {book.bookType}
                   </span>
                 )}
               </div>
@@ -54,23 +54,23 @@ const BookPreview = async ({ book }: PropTypes) => {
                     {book.genre}
                   </span>
                 )}
-                {book.target_audience && (
+                {book.targetAudience && (
                   <span className='px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800'>
-                    {book.target_audience}
+                    {book.targetAudience}
                   </span>
                 )}
               </div>
 
               <div className='flex flex-wrap gap-3'>
                 <Link
-                  href={`/read/${book.book_name}/${book.book_id}/chapter/1`}
+                  href={`/read/${book.bookName}/${book.bookId}/chapter/1`}
                   className='px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'
                 >
                   Start Reading
                 </Link>
-                {userId === book.user_id && (
+                {userId === book.userId && (
                   <Link
-                    href={`/dashboard/create/new-chapter/${book.book_id}`}
+                    href={`/dashboard/create/new-chapter/${book.bookId}`}
                     className='px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors shadow-lg'
                   >
                     Add New Chapter
@@ -79,7 +79,7 @@ const BookPreview = async ({ book }: PropTypes) => {
               </div>
 
               <div className='flex flex-wrap gap-6 text-sm text-gray-600'>
-                <div className='flex items-center gap-2'>Published {formatDate(book.created_at)}</div>
+                <div className='flex items-center gap-2'>Published {formatDate(book.createdAt)}</div>
               </div>
             </div>
           </div>

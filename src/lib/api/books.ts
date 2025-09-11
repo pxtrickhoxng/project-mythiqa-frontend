@@ -18,7 +18,7 @@ type BookType = {
 export const createStory = async (
   formData: FormData,
   token: string
-) => {
+): Promise<Response> => {
   const bucket = process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME;
   if (!bucket) {
     throw new Error("AWS S3 bucket name is not configured");
@@ -33,7 +33,7 @@ export const createStory = async (
     body: formData,
   });
 
-  if (!res.ok && res.status !== 409) {
+  if (!res.ok) {
     throw new Error("Failed to create a new story");
   }
 

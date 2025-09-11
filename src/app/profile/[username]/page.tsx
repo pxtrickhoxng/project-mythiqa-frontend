@@ -25,7 +25,6 @@ const page = async ({ params }: PageProps) => {
   }
 
   const userData = await fetchUserData(username);
-  console.log(userData);
 
   if (!userData) {
     return (

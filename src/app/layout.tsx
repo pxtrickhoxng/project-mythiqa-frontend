@@ -22,12 +22,14 @@ export default async function RootLayout({
 
   let authData = null;
   if (userId && user?.username && token) {
-    let imageUrl = await fetchUserProfileImg(user.username);
+    const profileImgRes = await fetchUserProfileImg(user.username);
+    let imageUrl = profileImgRes?.userProfileImgUrl;
     if (!imageUrl) {
       imageUrl = user.imageUrl; // if user doesnt have an image, use social provider image
     }
 
-    let displayName = await fetchUserDisplayName(user.username);
+    const displayNameRes = await fetchUserDisplayName(user.username);
+    let displayName = displayNameRes?.userDisplayName
     if (!displayName) {
       displayName = user.username;
     }

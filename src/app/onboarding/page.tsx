@@ -45,8 +45,11 @@ export default function OnboardingPage() {
             role: roles.user,
           };
 
-          await createUser(userPayload, token);
+          const res = await createUser(userPayload, token);
           
+          if (!res.ok) {
+            throw new Error("Failed to create user in database");
+          }
           // Redirect to set display name page
           router.push("/set-display-name");
         }
