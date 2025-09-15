@@ -19,12 +19,12 @@ const BookDetails = ({ book, chapters }: PropTypes) => {
 
           <div>
             <label className='block text-sm font-medium text-gray-500 mb-1'>Target Audience</label>
-            <p className='text-gray-900'>{book.target_audience || 'Not specified'}</p>
+            <p className='text-gray-900'>{book.targetAudience || 'Not specified'}</p>
           </div>
 
           <div>
             <label className='block text-sm font-medium text-gray-500 mb-1'>Book Type</label>
-            <p className='text-gray-900'>{book.book_type || 'Not specified'}</p>
+            <p className='text-gray-900'>{book.bookType || 'Not specified'}</p>
           </div>
 
           <div>
@@ -34,7 +34,7 @@ const BookDetails = ({ book, chapters }: PropTypes) => {
 
           <div>
             <label className='block text-sm font-medium text-gray-500 mb-1'>Published</label>
-            <p className='text-gray-900'>{formatDate(book.created_at)}</p>
+            <p className='text-gray-900'>{formatDate(book.createdAt)}</p>
           </div>
         </div>
       </div>

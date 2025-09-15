@@ -55,8 +55,8 @@ const QuickActions = () => {
             </svg>
           </div>
           <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-orange-700'>Manage Plot</p>
-            <p className='text-sm text-gray-500'>Plan and structure your story plot</p>
+            <p className='font-medium text-gray-700 group-hover:text-orange-700'>Manage Plots</p>
+            <p className='text-sm text-gray-500'>Plan and structure your plots</p>
           </div>
         </Link>{' '}
         <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-colors group'>
@@ -87,8 +87,8 @@ const QuickActions = () => {
             </svg>
           </div>
           <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-teal-700'>Manage World</p>
-            <p className='text-sm text-gray-500'>Build and organize your story world</p>
+            <p className='font-medium text-gray-700 group-hover:text-teal-700'>Manage Worlds</p>
+            <p className='text-sm text-gray-500'>Build and organize your worlds</p>
           </div>
         </button>
         <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition-colors group'>

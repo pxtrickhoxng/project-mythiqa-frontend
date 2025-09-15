@@ -5,18 +5,32 @@ type NewChapterNumType = {
   chapterNumber: number;
 };
 
-type Chapter = {
-  chapterId: string;
-  chapterName: string;
-  chapterNumber: string;
-  createdAt: string;
-};
-
 type CreateChapterType = {
   chapterContent: object;
   chapterName: string;
   chapterNumber: number;
   bookId: string;
+};
+
+// Add these new types for fetchOneChapter
+type CurrentChapter = {
+  chapterId: string;
+  chapterNumber: string;
+  chapterContent: string;
+  chapterName: string;
+  createdAt: string;
+};
+
+type NavigationChapter = {
+  chapterId: string;
+  chapterName: string;
+  chapterNumber: number;
+};
+
+export type FetchOneChapterResponse = {
+  currentChapter: CurrentChapter;
+  prevChapter: NavigationChapter | null;
+  nextChapter: NavigationChapter | null;
 };
 
 export const getNewChapterNum = async (bookId: string): Promise<NewChapterNumType> => {
@@ -26,6 +40,25 @@ export const getNewChapterNum = async (bookId: string): Promise<NewChapterNumTyp
     throw new Error('Failed to fetch new chapter number');
   }
 
+  return res.json();
+};
+
+export const fetchChapters = async (bookId: string) => {
+  const res = await fetch(`${CHAPTERS_API}/${bookId}`);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch chapters');
+  }
+
+  return res;
+};
+
+export const fetchOneChapter = async (bookId: string, chapterId: string): Promise<FetchOneChapterResponse> => {
+  const res = await fetch(`${CHAPTERS_API}/read/${bookId}/${chapterId}`);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch chapter view');
+  }
   return res.json();
 };
 
