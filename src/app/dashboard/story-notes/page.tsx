@@ -37,9 +37,12 @@ const page = async () => {
           <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6'>
             <h2 className='text-2xl font-semibold text-gray-800 mb-4'>Quick Actions</h2>
             <div className='flex flex-col sm:flex-row gap-4'>
-              <button className='flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2'>
+              <Link
+                className='flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2'
+                href='/dashboard/story-notes/create'
+              >
                 Create General Note
-              </button>
+              </Link>
             </div>
           </div>
         </div>
