@@ -29,9 +29,9 @@ The following images showcase some of Mythiqa’s key features. More will be add
 ## Tech Stack
 
 - **Frontend:** Next.js, Tailwind CSS, TypeScript  
-- **Backend:** FastAPI (Python)  
-- **Cloud & Data Storage:** AWS (RDS/PostgreSQL, DynamoDB, S3)  
-- **AI Integration:** Google Gemini API for AI-assisted writing tools
+- **Backend:** Springboot (Java)  
+- **Cloud & Data Storage:** AWS (RDS/PostgreSQL, S3)  
+- **AI Integration:** Anthropic API for AI-assisted writing tools
 
 ---
 
@@ -41,33 +41,32 @@ The following images showcase some of Mythiqa’s key features. More will be add
   Enables multiple users to co-author stories with built-in tools such as rich-text notes, narrative timelines, and character creation blueprints.
 
 - **AI-Assisted Writing Tools**  
-  Powered by the Google Gemini API, writers can access intelligent features for plot development, worldbuilding, and character ideation. Please refer to the bottom of the page for further explanation regarding AI usage in creative writing.
+  Powered by the Claude Anthropic LLM, writers can access intelligent features for plot development, worldbuilding, and character ideation. Please refer to the bottom of the page for further explanation regarding AI usage in creative writing.
 
 - **Responsive Frontend**  
   Built with Next.js and Tailwind CSS for a sleek, modern, and responsive user experience.
 
 - **Hybrid Data Architecture**  
-  Combines PostgreSQL for structured metadata, DynamoDB for fast access to unstructured chapter content, and S3 for storing user-uploaded media.
+  Combines PostgreSQL/RDS for structured metadata and S3 for storing user-uploaded media.
 
 ---
 
 ## How It Works
 
 1. Users register and authenticate using Clerk to begin writing.  
-2. The frontend communicates with FastAPI-based backend endpoints for managing user and story data.  
-3. Structured data (e.g., user accounts, story metadata, permissions) is stored in PostgreSQL.  
-4. Chapter content and other flexible story elements are stored and retrieved via DynamoDB.  
-5. Media assets such as profile pictures and book covers are stored in AWS S3.  
-6. AI features for planning and ideation are delivered through integrations with the Google Gemini API.
+2. The frontend communicates with Springboot backend endpoints for managing user and story data.  
+3. Structured data (e.g., user accounts, story metadata, permissions), as well as chapter content and user story notes, are stored in PostgreSQL.   
+4. Media assets such as profile pictures and book covers are stored in AWS S3 and retrieved via urls from the Postgres database.
+5. Users are provided with several built-in story planning solutions, tackling common problems in creative writing such as plot ideation, character creation, and worldbuilding. Authors may choose to leverage AI to aid with ideas and brainstorming.  
 
 ---
 
 ## What I Learned
 
-- Designing hybrid cloud storage solutions combining relational and NoSQL databases for scalable full-stack applications.  
-- Building modern server-rendered React apps with Next.js and Tailwind CSS for optimal UX and performance.  
-- Developing RESTful APIs using FastAPI and integrating complex cloud services (AWS RDS, DynamoDB, S3).  
-- Embedding AI capabilities via Google Gemini API to augment user creativity and content generation.
+- Designing hybrid cloud storage solutions combining relational and object-storage databases for scalable full-stack applications.  
+- Building modern server-rendered apps with Next.js and Tailwind CSS for optimal UX and performance.  
+- Developing RESTful APIs using Springboot and integrating complex cloud services (AWS RDS, S3).
+- Combining Clerk's built in authentication and authorization features with Spring Security to ensure overall site security. 
 
 ---
 
@@ -77,5 +76,6 @@ Mythiqa is currently an MVP under active and rapid development. Features, integr
 
 To preserve the integrity of creative writing, AI is intentionally not integrated directly into the text editor. Its use is limited to plotting, planning, and other related tools. This design choice encourages writers to craft their own stories without over-reliance on AI-generated content. Of course, this isn’t a foolproof safeguard since many external AI tools remain widely accessible.
 
----
+As of now, no AI features have been implemented into the application. However, they will be fully integrated before deployment.
 
+---
