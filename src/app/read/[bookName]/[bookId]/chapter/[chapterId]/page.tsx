@@ -58,7 +58,7 @@ const page = async ({ params }: Props) => {
           />
 
           <div
-            className={`flex items-center mt-12 pt-8 border-t border-gray-200 ${
+            className={`flex items-center mt-12 pt-8 border-t border-gray-200 gap-4 ${
               prevChapter && nextChapter
                 ? 'justify-between'
                 : prevChapter
@@ -71,7 +71,7 @@ const page = async ({ params }: Props) => {
             {prevChapter && (
               <Link
                 href={`/read/${bookName}/${bookId}/chapter/${prevChapter.chapterId}`}
-                className='flex flex-col items-start p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors max-w-xs'
+                className='flex flex-col items-start p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors w-44'
               >
                 <span className='text-sm text-gray-500 mb-1'>← Previous Chapter</span>
                 <span className='font-semibold text-black'>Chapter {prevChapter.chapterNumber}</span>
@@ -82,7 +82,7 @@ const page = async ({ params }: Props) => {
             {nextChapter && (
               <Link
                 href={`/read/${bookName}/${bookId}/chapter/${nextChapter.chapterId}`}
-                className='flex flex-col items-end p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors max-w-xs text-right'
+                className='flex flex-col items-end p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors w-44 text-right'
               >
                 <span className='text-sm text-gray-500 mb-1'>Next Chapter →</span>
                 <span className='font-semibold text-black'>Chapter {nextChapter.chapterNumber}</span>

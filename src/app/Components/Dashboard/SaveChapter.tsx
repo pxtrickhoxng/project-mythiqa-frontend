@@ -3,19 +3,38 @@ type SaveChapterProps = {
   isSaving: boolean;
   saveStatus: 'idle' | 'success' | 'error';
   editorContent: object | null;
+  chapterName: string;
 };
 
-const SaveChapter = ({ onSave, isSaving, saveStatus, editorContent }: SaveChapterProps) => {
+const SaveChapter = ({ onSave, isSaving, saveStatus, editorContent, chapterName }: SaveChapterProps) => {
+  // Check if editor has actual text content
+  const hasEditorContent = (() => {
+    if (!editorContent) return false;
+
+    // Convert to string and check if it contains actual content beyond empty structure
+    const contentStr = JSON.stringify(editorContent);
+
+    // TipTap empty editor typically has structure like {"type":"doc","content":[{"type":"paragraph"}]}
+    // This creates a false positive, so even if theres no actual text, editorContent is considered truthy
+    // We need to check if there's actual text in the content
+    const hasText = contentStr.includes('"text"');
+
+    return hasText;
+  })();
+
+  const hasContent = hasEditorContent && chapterName.trim();
+  const isDisabled = isSaving || !hasContent;
+
   return (
     <div className='fixed bottom-0 right-0 left-0 bg-white border-t border-gray-200 shadow-lg p-4'>
       <div className='max-w-6xl mx-auto flex justify-end'>
         <button
           onClick={onSave}
-          disabled={isSaving || !editorContent}
+          disabled={isDisabled}
           className={`
               px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200
               ${
-                isSaving || !editorContent
+                isDisabled
                   ? 'bg-gray-400 cursor-not-allowed'
                   : saveStatus === 'success'
                   ? 'bg-green-500 hover:bg-green-600'

@@ -1,14 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Book } from '@/utils/types';
+import { Book, Chapter } from '@/utils/types';
 import { formatDate } from '@/utils/formateDate';
 import { auth } from '@clerk/nextjs/server';
 
 type PropTypes = {
   book: Book;
+  firstChapter: Chapter | null;
 };
 
-const BookPreview = async ({ book }: PropTypes) => {
+const BookPreview = async ({ book, firstChapter }: PropTypes) => {
   const { userId } = await auth();
   return (
     <div className='relative bg-gray-50'>
@@ -62,12 +63,21 @@ const BookPreview = async ({ book }: PropTypes) => {
               </div>
 
               <div className='flex flex-wrap gap-3'>
-                <Link
-                  href={`/read/${book.bookName}/${book.bookId}/chapter/1`}
-                  className='px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'
-                >
-                  Start Reading
-                </Link>
+                {firstChapter ? (
+                  <Link
+                    href={`/read/${book.bookName}/${book.bookId}/chapter/${firstChapter.chapterId}`}
+                    className='px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'
+                  >
+                    Start Reading
+                  </Link>
+                ) : (
+                  <button
+                    disabled
+                    className='px-6 py-3 bg-gray-400 text-white font-semibold rounded-lg cursor-not-allowed shadow-lg'
+                  >
+                    No Chapters Available
+                  </button>
+                )}
                 {userId === book.userId && (
                   <Link
                     href={`/dashboard/create/new-chapter/${book.bookId}`}

@@ -24,10 +24,9 @@ const page = async ({ params }: PageProps) => {
     // Sort chapters by chapterNumber (convert string to number for proper sorting)
     const sortedChapters = chapters.sort((a, b) => parseInt(a.chapterNumber) - parseInt(b.chapterNumber));
 
-    console.log(sortedChapters);
     return (
       <div className='min-h-screen bg-gray-50 pt-12'>
-        <BookPreview book={book} />
+        <BookPreview book={book} firstChapter={sortedChapters[0] || null} />
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
             <div className='lg:col-span-2 space-y-8'>

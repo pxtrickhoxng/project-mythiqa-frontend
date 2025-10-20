@@ -143,6 +143,7 @@ const Page = () => {
         isSaving={isSaving}
         saveStatus={saveStatus}
         editorContent={editorContent}
+        chapterName={chapterName}
       />
     </div>
   );

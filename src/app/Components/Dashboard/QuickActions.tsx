@@ -6,26 +6,41 @@ const QuickActions = () => {
       <div className='flex items-center justify-between mb-6'>
         <h2 className='text-xl font-semibold text-gray-800'>Quick Actions</h2>
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4'>
         <Link
-          className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors group'
+          className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 transition-colors group'
           href='/dashboard/create'
         >
-          <div className='w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors'>
+          <div className='w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors flex-shrink-0'>
             <svg className='w-4 h-4 text-blue-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 4v16m8-8H4' />
             </svg>
           </div>
-          <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-blue-700'>Add New Story</p>
-            <p className='text-sm text-gray-500'>Create a new story project</p>
-          </div>
+          <p className='font-medium text-gray-700 group-hover:text-blue-700'>Add New Story</p>
         </Link>
+
         <Link
-          className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition-colors group'
+          className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-400 hover:bg-green-50 transition-colors group'
+          href='/dashboard/edit-chapters'
+        >
+          <div className='w-8 h-8 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200 transition-colors flex-shrink-0'>
+            <svg className='w-4 h-4 text-green-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z'
+              />
+            </svg>
+          </div>
+          <p className='font-medium text-gray-700 group-hover:text-green-700'>Edit Chapters</p>
+        </Link>
+
+        <Link
+          className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-yellow-400 hover:bg-yellow-50 transition-colors group'
           href='/dashboard/story-notes'
         >
-          <div className='w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors'>
+          <div className='w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors flex-shrink-0'>
             <svg className='w-4 h-4 text-yellow-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
@@ -35,16 +50,14 @@ const QuickActions = () => {
               />
             </svg>
           </div>
-          <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-yellow-700'>Story Notes</p>
-            <p className='text-sm text-gray-500'>Keep track of ideas and notes</p>
-          </div>
+          <p className='font-medium text-gray-700 group-hover:text-yellow-700'>Story Notes</p>
         </Link>
+
         <Link
-          className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors group'
+          className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-orange-400 hover:bg-orange-50 transition-colors group'
           href='/dashboard/manage-plot'
         >
-          <div className='w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors'>
+          <div className='w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors flex-shrink-0'>
             <svg className='w-4 h-4 text-orange-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
@@ -54,13 +67,11 @@ const QuickActions = () => {
               />
             </svg>
           </div>
-          <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-orange-700'>Manage Plots</p>
-            <p className='text-sm text-gray-500'>Plan and structure your plots</p>
-          </div>
-        </Link>{' '}
-        <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-colors group'>
-          <div className='w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center group-hover:bg-purple-200 transition-colors'>
+          <p className='font-medium text-gray-700 group-hover:text-orange-700'>Manage Plots</p>
+        </Link>
+
+        <button className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-colors group'>
+          <div className='w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center group-hover:bg-purple-200 transition-colors flex-shrink-0'>
             <svg className='w-4 h-4 text-purple-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
@@ -70,13 +81,11 @@ const QuickActions = () => {
               />
             </svg>
           </div>
-          <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-purple-700'>Manage Characters</p>
-            <p className='text-sm text-gray-500'>Create and edit your characters</p>
-          </div>
+          <p className='font-medium text-gray-700 group-hover:text-purple-700'>Manage Characters</p>
         </button>
-        <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-teal-400 hover:bg-teal-50 transition-colors group'>
-          <div className='w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center group-hover:bg-teal-200 transition-colors'>
+
+        <button className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-teal-400 hover:bg-teal-50 transition-colors group'>
+          <div className='w-8 h-8 bg-teal-100 rounded-full flex items-center justify-center group-hover:bg-teal-200 transition-colors flex-shrink-0'>
             <svg className='w-4 h-4 text-teal-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
@@ -86,13 +95,11 @@ const QuickActions = () => {
               />
             </svg>
           </div>
-          <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-teal-700'>Manage Worlds</p>
-            <p className='text-sm text-gray-500'>Build and organize your worlds</p>
-          </div>
+          <p className='font-medium text-gray-700 group-hover:text-teal-700'>Manage Worlds</p>
         </button>
-        <button className='flex items-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition-colors group'>
-          <div className='w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center group-hover:bg-indigo-200 transition-colors'>
+
+        <button className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition-colors group'>
+          <div className='w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center group-hover:bg-indigo-200 transition-colors flex-shrink-0'>
             <svg className='w-4 h-4 text-indigo-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
@@ -102,10 +109,21 @@ const QuickActions = () => {
               />
             </svg>
           </div>
-          <div className='text-left'>
-            <p className='font-medium text-gray-700 group-hover:text-indigo-700'>Manage Collaborators</p>
-            <p className='text-sm text-gray-500'>Invite and manage co-writers</p>
+          <p className='font-medium text-gray-700 group-hover:text-indigo-700'>Manage Collaborators</p>
+        </button>
+
+        <button className='flex items-center justify-center gap-3 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-pink-400 hover:bg-pink-50 transition-colors group'>
+          <div className='w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center group-hover:bg-pink-200 transition-colors flex-shrink-0'>
+            <svg className='w-4 h-4 text-pink-600' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
+            </svg>
           </div>
+          <p className='font-medium text-gray-700 group-hover:text-pink-700 text-center'>More Features Coming Soon!</p>
         </button>
       </div>
     </div>

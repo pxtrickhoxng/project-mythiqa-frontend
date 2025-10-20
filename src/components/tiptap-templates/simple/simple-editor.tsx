@@ -104,9 +104,10 @@ const MobileToolbarContent = ({ type, onBack }: { type: 'highlighter' | 'link'; 
 
 type EditorTypes = {
   onTextChange: (content: JSONContent) => void;
+  initialContent?: JSONContent | null;
 };
 
-export const SimpleEditor = ({ onTextChange }: EditorTypes) => {
+export const SimpleEditor = ({ onTextChange, initialContent }: EditorTypes) => {
   const isMobile = useMobile();
   const windowSize = useWindowSize();
   const [mobileView, setMobileView] = React.useState<'main' | 'highlighter' | 'link'>('main');
@@ -130,7 +131,7 @@ export const SimpleEditor = ({ onTextChange }: EditorTypes) => {
       },
     },
     extensions: [StarterKit, TextAlign.configure({ types: ['heading', 'paragraph'] }), Underline],
-    content: null,
+    content: initialContent || null,
   });
 
   const bodyRect = useCursorVisibility({
