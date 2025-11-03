@@ -12,7 +12,11 @@ type CreateChapterType = {
   bookId: string;
 };
 
-// Add these new types for fetchOneChapter
+type UpdateChapterType = {
+  chapterContent: object;
+  chapterName: string;
+};
+
 type CurrentChapter = {
   chapterId: string;
   chapterNumber: string;
@@ -33,11 +37,13 @@ export type FetchOneChapterResponse = {
   nextChapter: NavigationChapter | null;
 };
 
-export const getNewChapterNum = async (bookId: string): Promise<NewChapterNumType> => {
+export const getNewChapterNum = async (
+  bookId: string
+): Promise<NewChapterNumType> => {
   const res = await fetch(`${CHAPTERS_API}/${bookId}/new-chapter-num`);
 
   if (!res.ok) {
-    throw new Error('Failed to fetch new chapter number');
+    throw new Error("Failed to fetch new chapter number");
   }
 
   return res.json();
@@ -47,33 +53,60 @@ export const fetchChapters = async (bookId: string) => {
   const res = await fetch(`${CHAPTERS_API}/${bookId}`);
 
   if (!res.ok) {
-    throw new Error('Failed to fetch chapters');
+    throw new Error("Failed to fetch chapters");
   }
 
   return res;
 };
 
-export const fetchOneChapter = async (bookId: string, chapterId: string): Promise<FetchOneChapterResponse> => {
+export const fetchOneChapter = async (
+  bookId: string,
+  chapterId: string
+): Promise<FetchOneChapterResponse> => {
   const res = await fetch(`${CHAPTERS_API}/read/${bookId}/${chapterId}`);
 
   if (!res.ok) {
-    throw new Error('Failed to fetch chapter view');
+    throw new Error("Failed to fetch chapter view");
   }
   return res.json();
 };
 
-export const createChapter = async (chapter: CreateChapterType, token: string) => {
+export const createChapter = async (
+  chapter: CreateChapterType,
+  token: string
+) => {
   const res = await fetch(`${CHAPTERS_API}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(chapter),
   });
 
   if (!res.ok) {
-    throw new Error('Failed to create chapter');
+    throw new Error("Failed to create chapter");
+  }
+
+  return res;
+};
+
+export const updateChapter = async (
+  chapterPayload: UpdateChapterType,
+  chapterId: string,
+  token: string
+) => {
+  const res = await fetch(`${CHAPTERS_API}/${chapterId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(chapterPayload),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update chapter");
   }
 
   return res;
