@@ -54,3 +54,34 @@ export type timelineCardType = {
   chapter: string;
   details: detailsType[];
 };
+
+export type Appearance = {
+  height: string;
+  build: string;
+  eyeColor: string;
+  hairColor: string;
+  hairStyle: string;
+  skinTone: string;
+  distinguishingFeatures: string[];
+  clothing: {
+    style: string;
+    colors: string[];
+    accessories: string[];
+  };
+};
+
+export type CreateCharacterForm = {
+  name: string;
+  nicknames: string[];
+  bookId: string;
+  age: number;
+  gender: 'male' | 'female' | 'other';
+  raceOrSpecies: string;
+  role: 'protagonist' | 'antagonist' | 'side_character';
+  faction: string;
+  personalityTraits: string[];
+  speechPatterns: string;
+  appearance: Appearance;
+  backstory: string;
+  generalNotes: string;
+};
